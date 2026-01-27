@@ -1,21 +1,13 @@
-name: Compile Rust
-on: [push]
-jobs:
-  build:
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Rust WASM
+      
+      - name: Ou est le fichier ?
         run: |
-          rustup update stable
+          echo "--- Contenu de la racine ---"
+          ls -R
+          
+      - name: Tentative de compilation
+        run: |
           rustup target add wasm32-unknown-unknown
-
-      - name: Build Release
-        run: cargo build --target wasm32-unknown-unknown --release
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: r-wasm
-          path: target/wasm32-unknown-unknown/release/*.wasm
+          # On cherche le Cargo.toml et on compile là où il se trouve
+          find . -name "Cargo.toml" -execdir cargo build --target wasm32-unknown-unknown --release \;
