@@ -5,11 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: rustup target add wasm32-unknown-unknown
-            - name: Build Rust
-        run: cargo build --manifest-path ./Cargo.toml --target wasm32-unknown-unknown --release
 
-      - uses: actions/upload-artifact@v4
+      - name: Install Rust WASM
+        run: |
+          rustup update stable
+          rustup target add wasm32-unknown-unknown
+
+      - name: Build Release
+        run: cargo build --target wasm32-unknown-unknown --release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
           name: r-wasm
           path: target/wasm32-unknown-unknown/release/*.wasm
