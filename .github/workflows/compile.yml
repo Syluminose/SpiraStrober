@@ -1,13 +1,32 @@
+name: Compile Rust
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Ou est le fichier ?
+
+      - name: Force Create Project
         run: |
-          echo "--- Contenu de la racine ---"
-          ls -R
+          # On crée le fichier de config au cas où
+          echo '[package]' > Cargo.toml
+          echo 'name = "r_lib"' >> Cargo.toml
+          echo 'version = "0.1.0"' >> Cargo.toml
+          echo 'edition = "2021"' >> Cargo.toml
+          echo '[lib]' >> Cargo.toml
+          echo 'crate-type = ["cdylib"]' >> Cargo.toml
           
-      - name: Tentative de compilation
+          # On crée le dossier src et un code de test
+          mkdir -p src
+          echo '#[no_mangle] pub fn f1(a:f32, b:f32) -> f32 { a + b }' > src/lib.rs
+
+      - name: Build
         run: |
           rustup target add wasm32-unknown-unknown
-          # On cherche le Cargo.toml et on compile là où il se trouve
-          find . -name "Cargo.toml" -execdir cargo build --target wasm32-unknown-unknown --release \;
+          cargo build --target wasm32-unknown-unknown --release
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: r-wasm
+          path: target/wasm32-unknown-unknown/release/*.wasm
