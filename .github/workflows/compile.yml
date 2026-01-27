@@ -8,7 +8,6 @@ jobs:
 
       - name: Force Create Project
         run: |
-          # Reconstruction du Cargo.toml avec optimisations de taille
           echo '[package]' > Cargo.toml
           echo 'name = "r_lib"' >> Cargo.toml
           echo 'version = "0.1.0"' >> Cargo.toml
@@ -18,21 +17,21 @@ jobs:
           echo '[profile.release]' >> Cargo.toml
           echo 'opt-level = "z"' >> Cargo.toml
           echo 'lto = true' >> Cargo.toml
-          echo 'codegen-units = 1' >> Cargo.toml
           
-          # Injection des fonctions mathématiques d'origine
           mkdir -p src
-          echo '#[no_mangle] pub extern "C" fn Li(a: f32, b: f32, t: f32, d: f32) -> f32 { a + (b - a) * t / d }' > src/lib.rs
-          echo '#[no_mangle] pub extern "C" fn In(a: f32, b: f32, t: f32, d: f32) -> f32 { a * t + (b - a) * t * t / (2.0 * d) }' >> src/lib.rs
-          echo '#[no_mangle] pub extern "C" fn Sl(a: f32, b: f32, d: f32) -> f32 { (b - a) / d }' >> src/lib.rs
+          echo '#[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}' > src/lib.rs
+          echo '#[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}' >> src/lib.rs
+          echo '#[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}' >> src/lib.rs
 
       - name: Build
         run: |
           rustup target add wasm32-unknown-unknown
           cargo build --target wasm32-unknown-unknown --release
+          # On crée un fichier JS qui contient le binaire en base64
+          echo "window.r_wasm_b64 = '$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)';" > target/wasm32-unknown-unknown/release/r_lib.js
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: r-wasm
-          path: target/wasm32-unknown-unknown/release/r_lib.wasm
+          name: rust-sidecar
+          path: target/wasm32-unknown-unknown/release/r_lib.js
