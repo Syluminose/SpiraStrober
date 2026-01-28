@@ -1,12 +1,17 @@
 name: Build
-on: {push: {branches: [Rust]}}
+on:
+  push:
+    branches:
+      - Rust
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: {contents: write}
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-        with: {fetch-depth: 0}
+        with:
+          fetch-depth: 0
       - run: |
           printf "[package]\nname=\"r\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[lib]\ncrate-type=[\"cdylib\"]\n[profile.release]\nopt-level=\"z\"\nlto=true\npanic=\"abort\"\ncodegen-units=1">Cargo.toml;mkdir -p src
           cat<<'F'>src/lib.rs
@@ -21,11 +26,11 @@ jobs:
           cargo build --release --target wasm32-unknown-unknown
           echo "WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';" > lib.js
       - name: Push
-        env: {T: ${{secrets.GITHUB_TOKEN}}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name bot
           git config user.email bot@github.com
-          git remote set-url origin https://x-access-token:${T}@github.com/${{github.repository}}.git
           git add lib.js
           if ! git diff --staged --quiet; then
             git commit -m "Update lib.js"
