@@ -1,7 +1,7 @@
 name: Rust-to-HTML-Inliner
 on:
   push:
-    branches: [rust]
+    branches: [Rust]
 permissions:
   contents: write
 jobs:
