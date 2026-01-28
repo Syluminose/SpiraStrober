@@ -10,64 +10,39 @@ jobs:
         run: |
           echo '[package]' > Cargo.toml
           echo 'name = "r_lib"' >> Cargo.toml
-          echo 'version = "0.1.1"' >> Cargo.toml
+          echo 'version = "0.1.0"' >> Cargo.toml
           echo 'edition = "2021"' >> Cargo.toml
           echo '[lib]' >> Cargo.toml
           echo 'crate-type = ["cdylib"]' >> Cargo.toml
           echo '[profile.release]' >> Cargo.toml
           echo 'opt-level = "z"' >> Cargo.toml
           echo 'lto = true' >> Cargo.toml
-          echo 'codegen-units = 1' >> Cargo.toml
-          echo 'panic = "abort"' >> Cargo.toml
           
           mkdir -p src
-          cat << 'EOF' > src/lib.rs
-          // Désactive la librairie standard pour un binaire ultra-léger
-          #![no_std]
-          use core::panic::PanicInfo;
-
-          #[panic_handler]
-          fn panic(_info: &PanicInfo) -> ! { loop {} }
-
-          // Fonctions d'interpolation de base
-          #[no_mangle] 
-          pub extern "C" fn Li(a:f32, b:f32, t:f32, d:f32) -> f32 { a + (b - a) * t / d }
-
-          #[no_mangle] 
-          pub extern "C" fn In(a:f32, b:f32, t:f32, d:f32) -> f32 { a * t + (b - a) * t * t / (2.0 * d) }
-
-          #[no_mangle] 
-          pub extern "C" fn Sl(a:f32, b:f32, d:f32) -> f32 { (b - a) / d }
-
-          // Optimisation : Forme d'onde complexe (an en JS)
-          // Évite les allers-retours JS/WASM pour les sinus imbriqués
-          #[no_mangle]
-          pub extern "C" fn An(v:f32, k:f32, h:f32) -> f32 {
-              let s = (v + k * v.sin()).sin();
-              ((s * 0.5) + 0.5).powf(h)
-          }
-
-          // Optimisation : Calcul de fréquence normalisée (Fn en JS)
-          #[no_mangle]
-          pub extern "C" fn Fn_w(a:f32, b:f32, h:f32) -> f32 {
-              let b_safe = if b < 0.001 { 0.001 } else { b };
-              (a / b_safe).powf(1.0 / h) / 6.283185307
-          }
-
-          // Optimisation : Calcul du gain/densité (df en JS)
-          #[no_mangle]
-          pub extern "C" fn Df(s3:f32, s4:f32, s5:f32) -> f32 {
-              s4.powf(1.0 / s5) * s3.powf(1.0 - 1.0 / s5)
-          }
-          EOF
-
-      - name: Install WASM target
-        run: rustup target add wasm32-unknown-unknown
+          echo '#[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}' > src/lib.rs
+          echo '#[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}' >> src/lib.rs
+          echo '#[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}' >> src/lib.rs
+          
+          # Optimisation de la Waveform (an)
+          echo '#[no_mangle] pub extern "C" fn an(v:f32,k:f32,h:f32)->f32{((v+k*v.sin()).sin()*0.5+0.5).powf(h)}' >> src/lib.rs
+          
+          # Optimisation de la Fréquence (Fn)
+          echo '#[no_mangle] pub extern "C" fn Fn(a:f32,b:f32,h:f32)->f32{let m=if b<0.001{0.001}else{b};(a/m).powf(1.0/h)/6.2831853}' >> src/lib.rs
+          
+          # Optimisation du Gain (df) - Note: les offsets 3,4,5 correspondent à tes indices JS
+          echo '#[no_mangle] pub extern "C" fn df(s3:f32,s4:f32,s5:f32)->f32{s4.powf(1.0/s5)*s3.powf(1.0-1.0/s5)}' >> src/lib.rs
 
       - name: Build
-        run: cargo build --target wasm32-unknown-unknown --release
-
-      - name: Convert to Base64 and Export
         run: |
-          WASM_B64=$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)
-          echo "window.r_wasm_b64 = '$WASM_B64';" > r_lib.js
+          rustup target add wasm32-unknown-unknown
+          cargo build --release --target wasm32-unknown-unknown
+
+      - name: Export Base64
+        run: |
+          echo "window.r_wasm_b64 = '$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)';" > r_lib.js
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: r_lib
+          path: r_lib.js
