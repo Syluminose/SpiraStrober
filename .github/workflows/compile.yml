@@ -1,41 +1,23 @@
-name: Rust-to-HTML-Inliner
-on:
-  push:
-    branches: [Rust]
+name: Build
+on: {push: {branches: [Rust]}}
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Rust Tiny Build
-      run: |
-        rustup target add wasm32-unknown-unknown
-        echo '[package]' > Cargo.toml
-        echo 'name = "r_lib"' >> Cargo.toml
-        echo 'version = "0.1.0"' >> Cargo.toml
-        echo 'edition = "2021"' >> Cargo.toml
-        echo '[lib]' >> Cargo.toml
-        echo 'crate-type = ["cdylib"]' >> Cargo.toml
-        echo '[profile.release]' >> Cargo.toml
-        echo 'opt-level = "z"' >> Cargo.toml
-        echo 'lto = true' >> Cargo.toml
-        echo 'panic = "abort"' >> Cargo.toml
-        mkdir -p src
-        cat << 'EOF' > src/lib.rs
-        #![no_std]
-        #[panic_handler] fn p(_: &core::panic::PanicInfo) -> ! { loop {} }
-        #[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-        #[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
-        #[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
-        EOF
-        cargo build --release --target wasm32-unknown-unknown
-    - name: Inject WASM into HTML
-      run: |
-        B64=$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)
-        # On utilise une expression régulière plus souple pour trouver la variable b64
-        sed -r "s|window\.r_wasm_b64\s*=\s*'.*';|window.r_wasm_b64 = '$B64';|" KAS.html > index.html
-    - name: Upload Final Build
-      uses: actions/upload-artifact@v4
-      with:
-        name: index1
-        path: index1.html
+      - uses: actions/checkout@v4
+      - run: |
+          printf "[package]\nname=\"r\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[lib]\ncrate-type=[\"cdylib\"]\n[profile.release]\nopt-level=\"z\"\nlto=true\npanic=\"abort\"\ncodegen-units=1">Cargo.toml;mkdir -p src
+          cat<<'F'>src/lib.rs
+          #![no_std]
+          #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
+          #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+          #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
+          #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+          F
+      - run: |
+          rustup target add wasm32-unknown-unknown
+          cargo build --release --target wasm32-unknown-unknown
+          echo "WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';">lib.js
+          sed -i 's/<meta charset=utf-8>/<meta charset=utf-8><script src="lib.js"><\/script>/' index.html
+      - uses: actions/upload-artifact@v4
+        with: {name: release, path: "index.html\nlib.js\n"}
