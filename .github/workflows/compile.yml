@@ -5,7 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Project
+
+      - name: Force Create Project
         run: |
           echo '[package]' > Cargo.toml
           echo 'name = "r_lib"' >> Cargo.toml
@@ -17,17 +18,38 @@ jobs:
           echo 'opt-level = "z"' >> Cargo.toml
           echo 'lto = true' >> Cargo.toml
           echo 'panic = "abort"' >> Cargo.toml
-
+          
           mkdir -p src
-          cat <<EOF > src/lib.rs
-          #[no_mangle] pub fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-          #[no_mangle] pub fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
-          #[no_mangle] pub fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
-          #[no_mangle] pub fn an(v:f32,k:f32,h:f32)->f32{((v+k*v.sin()).sin()*0.5+0.5).powf(h)}
-          #[no_mangle] pub fn Fn(a:f32,b:f32,h:f32)->f32{let m=if b<0.001{0.001}else{b};(a/m).powf(1.0/h)*0.15915494}
-          #[no_mangle] pub fn df(s3:f32,s4:f32,s5:f32)->f32{s4.powf(1.0/s5)*s3.powf(1.0-1.0/s5)}
+          cat << 'EOF' > src/lib.rs
+          #[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+          #[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
+          #[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+          #[no_mangle] pub extern "C" fn an(v:f32,k:f32,h:f32)->f32{((v+k*v.sin()).sin()*0.5+0.5).powf(h)}
+          #[no_mangle] pub extern "C" fn Fn(a:f32,b:f32,h:f32)->f32{let m=if b<0.001{0.001}else{b};(a/m).powf(1.0/h)*0.15915494}
+          #[no_mangle] pub extern "C" fn df(s3:f32,s4:f32,s5:f32)->f32{s4.powf(1.0/s5)*s3.powf(1.0-1.0/s5)}
           EOF
 
+      - name: Build WASM
+        run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          echo "window.r_wasm_b64 = '$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)';" > r_lib.js
+          ls -R target/wasm32-unknown-unknown/release/
+
+      - name: Export JS Artefact
+        run: |
+          WASM_PATH="target/wasm32-unknown-unknown/release/r_lib.wasm"
+          if [ -f "$WASM_PATH" ]; then
+            B64=$(base64 -w 0 "$WASM_PATH")
+            echo "window.r_wasm_b64 = '$B64';" > r_lib.js
+            echo "Fichier r_lib.js généré avec succès."
+          else
+            echo "Erreur : le fichier WASM n'existe pas."
+            exit 1
+          fi
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: r_lib_package
+          path: r_lib.js
+          if-no-files-found: error
