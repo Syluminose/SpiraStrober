@@ -1,7 +1,7 @@
 name: Rust-to-HTML-Inliner
 on:
   push:
-    branches: [Rust]
+    branches: [rust]
 jobs:
   build:
     runs-on: ubuntu-latest
