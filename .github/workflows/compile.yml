@@ -23,18 +23,17 @@ jobs:
         mkdir -p src
         cat << 'EOF' > src/lib.rs
         #![no_std]
-        #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
-        #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-        #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
-        #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+        #[panic_handler] fn p(_: &core::panic::PanicInfo) -> ! { loop {} }
+        #[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+        #[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
+        #[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
         EOF
         cargo build --release --target wasm32-unknown-unknown
     - name: Inject WASM into HTML
       run: |
-        # Extraction du binaire en base64 (une seule ligne sans retour à la ligne)
         B64=$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)
-        # Remplacement du marqueur dans votre fichier complet
-        sed "s|window.r_wasm_b64 = 'INSERT_WASM_B64_HERE';|window.r_wasm_b64 = '$B64';|" KAS.html > index.html
+        # On utilise une expression régulière plus souple pour trouver la variable b64
+        sed -r "s|window\.r_wasm_b64\s*=\s*'.*';|window.r_wasm_b64 = '$B64';|" KAS.html > index.html
     - name: Upload Final Build
       uses: actions/upload-artifact@v4
       with:
