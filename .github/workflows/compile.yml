@@ -1,72 +1,44 @@
-name: Compile Rust UltraLight
-on: [push]
+name: Rust-to-HTML-Inliner
+on:
+  push:
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Rust
-        run: |
-          rustup target add wasm32-unknown-unknown
-          echo '[package]' > Cargo.toml
-          echo 'name = "r_lib"' >> Cargo.toml
-          echo 'version = "0.1.0"' >> Cargo.toml
-          echo 'edition = "2021"' >> Cargo.toml
-          echo '[lib]' >> Cargo.toml
-          echo 'crate-type = ["cdylib"]' >> Cargo.toml
-          echo '[profile.release]' >> Cargo.toml
-          echo 'opt-level = "z"' >> Cargo.toml
-          echo 'lto = true' >> Cargo.toml
-          echo 'panic = "abort"' >> Cargo.toml
-          echo 'codegen-units = 1' >> Cargo.toml
-
-      - name: Create Tiny Rust
-        run: |
-          mkdir -p src
-          cat << 'EOF' > src/lib.rs
-          #![no_std]
-          use core::panic::PanicInfo;
-
-          // On importe les fonctions mathématiques du JS pour ne pas les inclure dans le binaire
-          extern "C" {
-              fn sn(x: f32) -> f32;
-              fn pw(a: f32, b: f32) -> f32;
-          }
-
-          #[panic_handler]
-          fn panic(_info: &PanicInfo) -> ! { loop {} }
-
-          #[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-          #[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
-          #[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
-          
-          #[no_mangle] 
-          pub unsafe extern "C" fn an(v:f32,k:f32,h:f32)->f32{
-              let s = sn(v + k * sn(v));
-              pw(s * 0.5 + 0.5, h)
-          }
-
-          #[no_mangle] 
-          pub unsafe extern "C" fn Fn(a:f32,b:f32,h:f32)->f32{
-              let m = if b < 0.001 { 0.001 } else { b };
-              pw(a / m, 1.0 / h) * 0.15915494
-          }
-
-          #[no_mangle] 
-          pub unsafe extern "C" fn df(s3:f32,s4:f32,s5:f32)->f32{
-              pw(s4, 1.0 / s5) * pw(s3, 1.0 - (1.0 / s5))
-          }
-          EOF
-
-      - name: Build and Minify
-        run: |
-          cargo build --release --target wasm32-unknown-unknown
-          # On utilise base64 sans retours à la ligne
-          B64=$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)
-          echo "window.r_wasm_b64 = '$B64';" > r_lib.js
-
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: r_lib_tiny
-          path: r_lib.js
+    - uses: actions/checkout@v4
+    - name: Rust Tiny Build
+      run: |
+        rustup target add wasm32-unknown-unknown
+        echo '[package]' > Cargo.toml
+        echo 'name = "r_lib"' >> Cargo.toml
+        echo 'version = "0.1.0"' >> Cargo.toml
+        echo 'edition = "2021"' >> Cargo.toml
+        echo '[lib]' >> Cargo.toml
+        echo 'crate-type = ["cdylib"]' >> Cargo.toml
+        echo '[profile.release]' >> Cargo.toml
+        echo 'opt-level = "z"' >> Cargo.toml
+        echo 'lto = true' >> Cargo.toml
+        echo 'panic = "abort"' >> Cargo.toml
+        mkdir -p src
+        cat << 'EOF' > src/lib.rs
+        #![no_std]
+        extern "C"{fn sn(x:f32)->f32;fn pw(a:f32,b:f32)->f32;}
+        #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
+        #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+        #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
+        #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+        #[no_mangle]pub unsafe extern "C" fn an(v:f32,k:f32,h:f32)->f32{pw(sn(v+k*sn(v))*0.5+0.5,h)}
+        #[no_mangle]pub unsafe extern "C" fn Fn(a:f32,b:f32,h:f32)->f32{pw(if b<0.001{0.001}else{b},1.0/h)*0.15915494}
+        #[no_mangle]pub unsafe extern "C" fn df(s3:f32,s4:f32,s5:f32)->f32{pw(s4,1.0/s5)*pw(s3,1.0-(1.0/s5))}
+        EOF
+        cargo build --release --target wasm32-unknown-unknown
+    - name: Inject WASM into HTML
+      run: |
+        B64=$(base64 -w 0 target/wasm32-unknown-unknown/release/r_lib.wasm)
+        sed "s|window.r_wasm_b64 = '';|window.r_wasm_b64 = '$B64';|" KAS.html > index.html
+    - name: Upload Final Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: SpiraStrober-Final
+        path: index.html
