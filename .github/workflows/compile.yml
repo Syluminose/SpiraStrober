@@ -38,4 +38,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: index1
-        path: index.html
+        path: index1.html
