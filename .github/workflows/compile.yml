@@ -13,19 +13,21 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          printf "[package]\nname=\"r\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[lib]\ncrate-type=[\"cdylib\"]\n[profile.release]\nopt-level=\"z\"\nlto=true\npanic=\"abort\"\ncodegen-units=1" > Cargo.toml
-          mkdir -p src
-          cat << 'EOF' > src/lib.rs
-          #[no_mangle] pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-          #[no_mangle] pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
-          #[no_mangle] pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
-          #[no_mangle] pub extern "C" fn Mx(a:f32,b:f32,t:f32)->f32{t*(a+b)/2.0}
-          #[no_mangle] pub extern "C" fn Wx(x:f32)->f32{(x*2.0*core::f32::consts::PI).sin()}
-          EOF
+          printf "[package]\nname=\"r\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[lib]\ncrate-type=[\"cdylib\"]\n[profile.release]\nopt-level=\"z\"\nlto=true\npanic=\"abort\"\ncodegen-units=1">Cargo.toml;mkdir -p src
+          cat<<'F'>src/lib.rs
+          use core::f32::consts::PI;
+          #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+          #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.0*d)}
+          #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+          #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,t:f32)->f32{t*(a+b)/2.0}
+          #[no_mangle]pub extern "C" fn Wx(x:f32)->f32{(x*2.0*PI).sin()}
+          F
       - run: |
           rustup target add wasm32-unknown-unknown
           cargo build --target wasm32-unknown-unknown --release
-          printf "WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';" > lib.js
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Update lib.js: Wx in WASM & std enabled"
+          echo "WW=\"$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)\"" > lib.js
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add lib.js
+          git commit -m "Update lib.js (Wx & Mx WASM)" || exit 0
+          git push
