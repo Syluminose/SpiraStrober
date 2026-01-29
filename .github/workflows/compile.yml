@@ -17,21 +17,18 @@ jobs:
           cat<<'F'>src/lib.rs
           #![no_std]
           #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
-          extern "C" { fn sn(x:f32)->f32; }
+          extern "C" { fn sinf(x: f32) -> f32; }
           #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
           #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
           #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
           #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,t:f32)->f32{t*(a+b)/2.}
-          #[no_mangle]pub extern "C" fn Wx(x:f32)->f32{unsafe{sn(x*6.283185307)}}
+          #[no_mangle]pub extern "C" fn Wx(x:f32)->f32{unsafe{sinf(x*2.*3.1415926535)}}
           F
       - run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          base64 target/wasm32-unknown-unknown/release/r.wasm | tr -d '\n' > lib.js
-      - name: Commit lib.js
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add lib.js
-          git commit -m "Update WASM library with Wx" || exit 0
-          git push
+          mv target/wasm32-unknown-unknown/release/r.wasm lib.js
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "WASM: Add Wx function"
+          file_pattern: 'lib.js'
