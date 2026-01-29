@@ -30,4 +30,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update WASM with Wx function"
-          file_pattern: 'lib.js'
+          file_pattern: 'lib.js' 
