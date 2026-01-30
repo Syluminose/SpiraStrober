@@ -21,13 +21,12 @@ jobs:
           #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
           #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
           #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
-          #[no_mangle]pub extern "C" fn Le(x:f32,a:f32,b:f32,t:f32,d:f32)->f32{let y=Li(a,b,t,d);(1.-y)*x+y}
+          #[no_mangle]pub extern "C" fn Ly(x:f32,a:f32,b:f32,d:f32)->f32{let t=(b-a)/d;(1.-t)*x+t}
           F
       - run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          echo "WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';"
-          > lib.js
+          echo "WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';" > lib.js
       - name: Push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
