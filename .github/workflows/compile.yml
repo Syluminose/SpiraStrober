@@ -21,7 +21,7 @@ jobs:
           #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
           #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
           #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
-          #[no_mangle]pub extern "C" fn Ly(x:f32,a:f32,b:f32,t:f32,d:f32)->f32{let v=a+(b-a)*t/d;(1.-v)*x+v}
+          #[no_mangle]pub extern "C" fn Le(x:f32,a:f32,b:f32,t:f32,d:f32)->f32{let y=Li(a,b,t,d);(1.-y)*x+y}
           F
       - run: |
           rustup target add wasm32-unknown-unknown
