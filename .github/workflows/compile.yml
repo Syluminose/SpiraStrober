@@ -17,11 +17,10 @@ jobs:
           cat<<'F'>src/lib.rs
           #![no_std]
           #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
-          #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-          #[no_mangle]pub extern "C" fn Ly(a:f32,b:f32,t:f32,d:f32,x:f32)->f32{let y=a+(b-a)*t/d;(1.-y)*x+y}
-          #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
-          #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
-          #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
+          #[no_mangle]#[inline(always)]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+          #[no_mangle]#[inline(always)]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
+          #[no_mangle]#[inline(always)]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+          #[no_mangle]#[inline(always)]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
           F
       - run: |
           rustup target add wasm32-unknown-unknown
@@ -35,6 +34,6 @@ jobs:
           git config user.email bot@github.com
           git add lib.js
           if ! git diff --staged --quiet; then
-            git commit -m "Update lib.js with Ly"
+            git commit -m "Update lib.js"
             git push origin Rust
           fi
