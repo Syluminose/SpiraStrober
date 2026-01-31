@@ -17,10 +17,27 @@ jobs:
           cat<<'F'>src/lib.rs
           #![no_std]
           #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
-          #[no_mangle]#[inline(always)]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
-          #[no_mangle]#[inline(always)]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
-          #[no_mangle]#[inline(always)]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
-          #[no_mangle]#[inline(always)]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
+          #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
+          #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
+          #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
+          #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
+          #[no_mangle]pub extern "C" fn Ac(s:*const f32,n:*const f32,h:*mut f32,l:usize){
+            unsafe {
+              let (s,n,h) = (core::slice::from_raw_parts(s,l*90),core::slice::from_raw_parts(n,l*90),core::slice::from_raw_parts_mut(h,l*18));
+              let mut c = [0f32;18];
+              for i in 0..l {
+                for j in 0..18 {
+                  h[i*18+j]=c[j];
+                  let (o,ch)=(i*90,j/3);
+                  let (p1,p2,p3)=if j%3==0 {(4,3,5)} else if j%3==1 {(1,1,1)} else {(8,8,8)};
+                  let (v1,v2)=if j%3==0 {(Fn(s[o+ch*15+p1],s[o+ch*15+p2],s[o+ch*15+p3]),Fn(n[o+ch*15+p1],n[o+ch*15+p2],n[o+ch*15+p3]))} 
+                              else {(s[o+ch*15+p1],n[o+ch*15+p1])};
+                  c[j]+=s[o]*(v1+v2)/2.;
+                }
+              }
+            }
+          }
+          fn Fn(a:f32,b:f32,h:f32)->f32{if b<0.001 {0.} else {(a/b).powf(1./h)/6.2831853}}
           F
       - run: |
           rustup target add wasm32-unknown-unknown
