@@ -21,24 +21,21 @@ jobs:
           #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
           #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
           #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
-          #[no_mangle]pub unsafe extern "C" fn Ph(s:*const f32,h:*mut f32,n:usize){
-            let mut c=[0.;6];let mut p=[0.;6];let mut a=[0.;6];
-            for i in 0..n-1{
-              let curr=s.add(i*90);let next=s.add((i+1)*90);let dt=*curr;
-              let out=h.add(i*18);
-              for k in 0..6{
-                let o=k*15;
-                let f0=(*curr.add(o+4)/0.001f32.max(*curr.add(o+3))).powf(1./ *curr.add(o+5))/6.283185;
-                let f1=(*next.add(o+4)/0.001f32.max(*next.add(o+3))).powf(1./ *next.add(o+5))/6.283185;
-                *out.add(k)=c[k];*out.add(k+6)=p[k];*out.add(k+12)=a[k];
-                c[k]+=dt*(f0+f1)/2.;
-                p[k]+=dt*(*curr.add(o+1)+*next.add(o+1))/2.;
-                a[k]+=dt*(*curr.add(o+8)+*next.add(o+8))/2.;
-              }}}F
+          #[no_mangle]pub unsafe extern "C" fn Gh(s:*const f32,h:*mut f32,n:usize){
+            let (s,h)= (core::slice::from_raw_parts(s,n*90),core::slice::from_raw_parts_mut(h,n*18));
+            for i in 0..n-1 {
+              let (curr,next,h_curr,h_next) = (&s[i*90..],&s[(i+1)*90..],i*18,(i+1)*18);
+              let dt = curr[0];
+              for k in 0..6 {
+                let o = k*15;
+                h[h_next+k] = h[h_curr+k] + Mx(Fn(curr[o+4],curr[o+3],curr[o+5]),Fn(next[o+4],next[o+3],next[o+5]),dt);
+                h[h_next+6+k] = h[h_curr+6+k] + Mx(curr[o+1],next[o+1],dt);
+                h[h_next+12+k] = h[h_curr+12+k] + Mx(curr[o+8],next[o+8],dt);
+              }
+            }
+          }
+          fn Fn(a:f32,b:f32,h:f32)->f32{ (if a<0.001 {0.001} else {a}/if b<0.001 {0.001} else {b}).powf(1./h)/6.2831853 }
+          F
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          mv target/wasm32-unknown-unknown/release/r.wasm lib.js
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Update lib.js (wasm)"
-          file_pattern: lib.js
+          printf "const WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';" > lib.js
