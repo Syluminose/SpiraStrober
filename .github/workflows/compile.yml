@@ -21,36 +21,21 @@ jobs:
           #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
           #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
           #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
-          #[no_mangle]pub extern "C" fn Ac(s:*const f32,n:*const f32,h:*mut f32,l:usize){
-            unsafe {
-              let (s,n,h) = (core::slice::from_raw_parts(s,l*90),core::slice::from_raw_parts(n,l*90),core::slice::from_raw_parts_mut(h,l*18));
-              let mut c = [0f32;18];
-              for i in 0..l {
+          #[no_mangle]pub unsafe extern "C" fn Ac(s:*const f32,h:*mut f32,n:usize,len:usize){
+            let mut c=[0.0f32;18];
+            for i in 0..n {
+                let off_h=i*18;
+                let off_s=i*len;
                 for j in 0..18 {
-                  h[i*18+j]=c[j];
-                  let (o,ch)=(i*90,j/3);
-                  let (p1,p2,p3)=if j%3==0 {(4,3,5)} else if j%3==1 {(1,1,1)} else {(8,8,8)};
-                  let (v1,v2)=if j%3==0 {(Fn(s[o+ch*15+p1],s[o+ch*15+p2],s[o+ch*15+p3]),Fn(n[o+ch*15+p1],n[o+ch*15+p2],n[o+ch*15+p3]))} 
-                              else {(s[o+ch*15+p1],n[o+ch*15+p1])};
-                  c[j]+=s[o]*(v1+v2)/2.;
+                    *(h.add(off_h+j))=c[j];
+                    let cur=*(s.add(off_s+j));
+                    let nxt=*(s.add(off_s+len+j));
+                    let dt=*(s.add(off_s));
+                    c[j]+=dt*(cur+nxt)/2.;
                 }
-              }
             }
           }
-          fn Fn(a:f32,b:f32,h:f32)->f32{if b<0.001 {0.} else {(a/b).powf(1./h)/6.2831853}}
           F
-      - run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          echo "WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';" > lib.js
-      - name: Push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name bot
-          git config user.email bot@github.com
-          git add lib.js
-          if ! git diff --staged --quiet; then
-            git commit -m "Update lib.js"
-            git push origin Rust
-          fi
+          base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm > wasm.txt
