@@ -17,25 +17,36 @@ jobs:
           cat<<'F'>src/lib.rs
           #![no_std]
           #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
+          const ATAN: [f32; 24] = [0.78539816, 0.4636476, 0.24497866, 0.12435499, 0.06241881, 0.031239833, 0.015623729, 0.007812349, 0.00390623, 0.001953122, 0.000976562, 0.000488281, 0.00024414, 0.00012207, 0.000061035, 0.000030517, 0.000015258, 0.000007629, 0.000003814, 0.000001907, 0.000000953, 0.000000476, 0.000000238, 0.000000119];
+          const K: f32 = 0.6072529; // Facteur de gain pour 24 itérations
+          #[no_mangle]pub extern "C" fn Wx(mut x: f32) -> f32 {
+              x = x - x.floor(); // Wrapping [0, 1]
+              let mut target = x * 6.2831853;
+              let mut sign = 1.0;
+              if target > 3.1415927 { target -= 3.1415927; sign = -1.0; }
+              if target > 1.5707963 { target = 3.1415927 - target; }
+              let mut cur_x = K;
+              let mut cur_y = 0.0;
+              let mut angle = 0.0;
+              for i in 0..24 {
+                  let d = if target > angle { 1.0 } else { -1.0 };
+                  let tx = cur_x;
+                  // Utilisation de la multiplication par puissance de 2 (équivalent bit-shift pour f32)
+                  let shift = 1.0 / ((1 << i) as f32);
+                  cur_x -= d * cur_y * shift;
+                  cur_y += d * tx * shift;
+                  angle += d * ATAN[i];
+              }
+              cur_y * sign
+          }
           #[no_mangle]pub extern "C" fn Li(a:f32,b:f32,t:f32,d:f32)->f32{a+(b-a)*t/d}
           #[no_mangle]pub extern "C" fn In(a:f32,b:f32,t:f32,d:f32)->f32{a*t+(b-a)*t*t/(2.*d)}
           #[no_mangle]pub extern "C" fn Sl(a:f32,b:f32,d:f32)->f32{(b-a)/d}
           #[no_mangle]pub extern "C" fn Mx(a:f32,b:f32,d:f32)->f32{d*(a+b)/2.}
-          #[no_mangle]pub unsafe extern "C" fn Gh(s:*const f32,h:*mut f32,n:usize){
-            let (s,h)= (core::slice::from_raw_parts(s,n*90),core::slice::from_raw_parts_mut(h,n*18));
-            for i in 0..n-1 {
-              let (curr,next,h_curr,h_next) = (&s[i*90..],&s[(i+1)*90..],i*18,(i+1)*18);
-              let dt = curr[0];
-              for k in 0..6 {
-                let o = k*15;
-                h[h_next+k] = h[h_curr+k] + Mx(Fn(curr[o+4],curr[o+3],curr[o+5]),Fn(next[o+4],next[o+3],next[o+5]),dt);
-                h[h_next+6+k] = h[h_curr+6+k] + Mx(curr[o+1],next[o+1],dt);
-                h[h_next+12+k] = h[h_curr+12+k] + Mx(curr[o+8],next[o+8],dt);
-              }
-            }
-          }
-          fn Fn(a:f32,b:f32,h:f32)->f32{ (if a<0.001 {0.001} else {a}/if b<0.001 {0.001} else {b}).powf(1./h)/6.2831853 }
           F
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
           printf "const WW='$(base64 -w 0 target/wasm32-unknown-unknown/release/r.wasm)';" > lib.js
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "CORDIC 24 iter in Rust"
