@@ -19,12 +19,10 @@ jobs:
           #[panic_handler]fn p(_:&core::panic::PanicInfo)->!{loop{}}
           trait Mp{fn mp<F:FnMut(usize)>(self,f:F);}
           impl Mp for usize{#[inline(always)]fn mp<F:FnMut(usize)>(self,mut f:F){for i in 0..self{f(i)}}}
-          impl<T,const N:usize> Mp for &[T;N]{#[inline(always)]fn mp<F:FnMut(usize)>(self,mut f:F){for i in 0..N{f(i)}}}
           const K:f32=0.6072529350;
           const A:[f32;24]=[0.785398163,0.463647609,0.244978663,0.124354995,0.06241881,0.031239833,0.015623729,0.007812341,0.00390623,0.001953123,0.000976562,0.000488281,0.000244141,0.00012207,0.000061035,0.000030518,0.000015259,0.000007629,0.000003815,0.000001907,0.000000954,0.000000477,0.000000238,0.000000119];
           #[no_mangle]pub extern "C" fn Wx(n:f32)->f32{
-          let v=n-(n as i32)as f32;
-          let v=v+(v<0.)as i32 as f32;
+          let v=n-n.floor();
           let mut t=v*6.283185307;
           let s1=(t>1.570796327&&t<=4.71238898)as i32 as f32;
           let s2=(t>4.71238898)as i32 as f32;
@@ -32,7 +30,7 @@ jobs:
           let mut x=K*(1.-s1*2.);
           let mut y=0.;
           24.mp(|i|{
-          let d=((t>0.)as i32*2-1)as f32;
+          let d=if t>0.{1.}else{-1.};
           let dx=x/(1<<i)as f32;
           let dy=y/(1<<i)as f32;
           x-=d*dy;
@@ -50,4 +48,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: Rust
-          commit_message: "Rust mp backend implementation"
+          commit_message: "Implement Rust-side mp loop in Wx"
