@@ -50,4 +50,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: Rust
-          commit_message: "Rust mp implementation & branchless Wx"
+          commit_message: "Rust mp backend implementation"
