@@ -9,7 +9,7 @@ let P=[0,300,10,10,0,0,0,0,0,0,1,'Durée\n(s)',0,0,50,12,18,-10,10,0,0,0,0,.1,'F
 .001,'Jitter\n(%)',1],
 Mn=1,a=.125,am=a/4,jr=.02,d=document,c=z=>d.createElement(z),cf=()=>d.createDocumentFragment(),
 e=d.documentElement,s=18,b=s*6,sL=0,E=[],ct='#fffd',mg=1,$c=0,$L=0,_fC=0,_dM=0,f5=Float32Array,_L='length',vM='void main(){}',
-M2=1<<22,B2=1<<24,B1=1<<18,gR=12,gC=4,gS=1/6,gB=1/2,gH_=6,c$=u=>{if(u!=$c)throw'A'},{max:ma,min:mi,sin:sn,cos:cs,abs:ab,PI:pi,sqrt:sq,clz32:clz}=Math,
+M2=1<<22,B2=1<<24,B1=1<<18,gR=12,gC=4,gS=1/6,gB=1/2,gH_=6,c$=u=>{if(u!=$c)throw'A'},{max:ma,min:mi,sin:sn,cos:cs,abs:ab,PI:pi,sqrt:sq,clz32:clz,floor:fl}=Math,
 T8=Uint8Array,T1=Uint16Array,Ti=Int16Array,T3=Uint32Array,cr=new T3(1),rn=()=>(crypto.getRandomValues(cr)[0]/2**32),
 tp=pi*2,sr=44100,fc=[18700,19200,19700,18200],kk=(u,v,w)=>ma(v,mi(w,u)),go=u=>{sL&&(u(),At())},
 bR=[0,32,40,48,56,64,80,96,112,128,160,192,224,256,320,0,8,16,24,32,40,48,56,64,80,96,112,128,144,160],
@@ -90,7 +90,7 @@ N=[],_S=n5(1024),
 R$=(u,v=n5((u*b+1023)&~1023))=>(v.set(sA(_S,0,mi(_S[_L],u*b))),_S=v,sL=u),
 I$=u=>(R$(sL+1),_S.copyWithin((u+1)*b,u*b,(sL-1)*b),sA(_S,u*b,(u+1)*b)),
 D$=u=>(_S.copyWithin(u*b,(u+1)*b,sL*b),R$(sL-1)),
-M=(u,v,w)=>_S[s*u+b+w]=_S[s*u+w]+_S[s*u]*(_S[s*u+v]+_S[s*u+b+v])*.5,
+M=(u,v,w,z=_S[s*u+w]+_S[s*u]*(_S[s*u+v]+_S[s*u+b+v])*.5)=>_S[s*u+b+w]=z-fl(z),
 Mi=u=>(M(u,1,15),M(u,14,16),M(u,8,17)),
 lm=lp(Mi),
 f=u=>(_S[s*u+4]/_S[s*u+3])**(1/_S[s*u+5])/tp,
@@ -114,10 +114,10 @@ if(!gA){
 gA=gW;pA=gA.cP();
 let vS=gA.createShader(35633),fS=gA.createShader(35632);
 gA.shaderSource(vS,v3+v4+`out n a_;void main(){`+
-`n vc=U_[0].x;q u=U_[2];isR=n(gl_VertexID&1);int id=gl_VertexID>>1;`+
-`int aId=int(u.y)+id;n t=float(aId)/vc,d=0.;int k=0;`+vC+
-`n pE=.5+.5*sin(tp*n(${jr*1e3})*float(aId)/vc)*mix(1.,-1.,isR);`+
-`q ph=float(aId-(aId/int(vc))*int(vc))*q(n(${fc[0]}),n(${fc[1]}),n(${fc[2]}),n(${fc[3]}))/vc;`+
+`n vc=U_[0].x;q u=U_[2];isR=n(gl_VertexID&1);n id=float(gl_VertexID>>1);`+
+`n aId=u.y+id;n t=aId/vc,d=0.;int k=0;`+vC+
+`n pE=.5+.5*sin(tp*fract(U_[5].x+(id/vc)*n(${jr*1e3})))*mix(1.,-1.,isR);`+
+`q ph=fract(U_[4]+(id/vc)*q(n(${fc[0]}),n(${fc[1]}),n(${fc[2]}),n(${fc[3]})));`+
 `q sg=q(S.xyz*n(${a}),pE*n(${am}))*sin(tp*ph);`+
 `a_=clamp(dot(sg,q(1.)),-1.,1.)*32767.;}`);
 gA.shaderSource(fS,`#version 300 es\nprecision highp float;\nvoid main(){}`);
@@ -128,14 +128,17 @@ vA_o=gA.cV();gA.bV(vA_o);
 bA_a=gA.cB();gA.bB(wT,bA_a);gA.bufferData(wT,B2,35044);
 gA.bX(36386,gA.cT());gA.b$(wT,0,bA_a);
 gA.U_=gA.gU(pA,'U_');gA.N_=gA.gU(pA,'N_');gA.S_=gA.gU(pA,'S_');
+gA.U4_=gA.gU(pA,'U_[4]');gA.U5_=gA.gU(pA,'U_[5]');gA.U2_=gA.gU(pA,'U_[2]');
 }
 gA.uP(pA);gA.ui(gA.N_,0);gA.ui(gA.S_,1);
 s4(gA,gA.U_,sr,0,0,0);
 let dV=new DataView(u);
 await al(tC,async k=>{
 gA.uP(pA);gA.bV(vA_o);gA.b$(wT,0,bA_a);gA.ax(w0);gA.bx(w2,gp.tN);gA.ax(w1);gA.bx(w2,gp.tS);
-let smp=mi(qZ,tF-k*qZ);
-s4(gA,gA.gU(pA,'U_[2]'),Tt,k*qZ/2,1/Tt,sL-1);
+let smp=mi(qZ,tF-k*qZ),id_o=k*qZ/2,t_o=id_o/sr,ph0=t_o*fc[0],ph1=t_o*fc[1],ph2=t_o*fc[2],ph3=t_o*fc[3],pE0=t_o*jr*1e3;
+s4(gA,gA.U4_,ph0-fl(ph0),ph1-fl(ph1),ph2-fl(ph2),ph3-fl(ph3));
+s4(gA,gA.U5_,pE0-fl(pE0),0,0,0);
+s4(gA,gA.U2_,Tt,id_o,1/Tt,sL-1);
 gA.en(35977);gA.bT(0);gA.dA(0,0,smp);gA.eT();gA.di(35977);
 let sy=gA.fS(37143,0);gA.fl();
 await nP(r=>{let ck=()=>gA.cW(sy,0,0)==37147?tm(ck,5):(gA.dS(sy),r());ck()});
