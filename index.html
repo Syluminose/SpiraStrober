@@ -1,8 +1,8 @@
 <!DOCTYPE html><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1"><script>
 // MIT License © 2025-2026 Syluminose
-let P=[0,300,10,10,0,0,0,0,0,0,1,'Durée\n(s)',0,0,50,8,16,-10,10,0,0,0,0,.1,'Freq\n(Hz)',1,-.5,.5,0,0,-.5,.5,0,0,0,.5,.01,
-'ΔΦ\n(Cy)',1,.6,50,3,9,-1,1,0,0,0,0,.01,'Dev PM\n(Cy)',1,0,50,5,15,-10,10,0,0,0,0,.1,'Dev 𝛼-PM\n(Cy/sᵅ)',1,1,5,1,3,-.1,.1,
+let P=[0,300,10,10,0,0,0,0,0,0,1,'Durée\n(s)',0,0,100,10,20,-10,10,0,0,0,0,.1,'Freq\n(Hz)',1,-.5,.5,0,0,-.5,.5,0,0,0,.5,.01,
+'ΔΦ\n(Cy)',1,.6,50,3,9,-1,1,0,0,0,0,.01,'Dev PM\n(Cy)',1,-50,50,5,15,-10,10,0,0,0,0,.1,'Dev 𝛼-PM\n(Cy/sᵅ)',1,1,5,1,3,-.1,.1,
 0,0,0,0,.01,'FO 𝛼-PM\n(-)',1,-.5,.5,0,0,-.5,.5,0,0,0,0,.01,'ΔΦ 𝛼-PM\n(Cy)',1,0,1,.75,.75,-.1,.1,0,0,0,0,.001,'Amb AM\n(%)',
 1,0,50,.5,2,-10,10,0,0,0,0,.1,'Fₘ AM\n(Hz)',1,-.5,.5,0,0,-.5,.5,-.33,.33,0,0,.01,'ΔΦ AM\n(Cy)',1,0,.5,.25,.25,-.1,.1,0,0,0,0,
 .01,'Skew\n(-)',1,0,.5,.5,.5,0,.1,0,0,0,0,.01,'Shape\n(%)',1,0,1,.0,.0,-.1,.1,0,0,0,0,.001,'Amb\n(%)',1,.2,.5,.2,.2,0,0,0,0,0,0,
@@ -25,7 +25,7 @@ ap=(u,...v)=>u.append(...v),ev=(u,v,w)=>u['on'+v]=w,e_=(u,v)=>u.id=uA.push(v),
 eG=(u,v)=>u.id=uA.push(w=>(w=v(w),w&&sL&&At(),w)),hE=(u,v)=>(w,t)=>(t=w.target.textContent,t[_L]<5&&(t=u.indexOf(t))>=0?(v(t),1):0),n5=u=>new f5(u),
 c0='#000',c1='#fff',cb='#f40',bC=bg+c0+';'+co+c1+';',oH='overflow:hidden;',mC='max-content',hD='height:100dvh;',
 tL=to+'0;'+lf+'0;',dG=dg+gd,dJ=dG+jc+ai,b1='1px solid ',bT='border-bottom:',b0=b1+c0,bB_=b1+cb,dC_=dg+cn,
-cG='#ff0,#f0f,#0ff,#0f0'.split(','),cA='#c00,#0c0,#00c'.split(','),aA=[...'⫷⪡⪢⫸'],bK=[...'⛶💡⏹📂🔍'],
+cG='#ff0,#f0f,#0ff,#0f0'.split(','),cA='#c00,#0c0,#00c'.split(','),aA=[...'⫷⪡⪢⫸'],bK=[...'⛶💡🪩⏹📂🔍'],
 sA=(u,v,w)=>u.subarray(v,w),s4=(u,v,w,x,y,z)=>(u4[0]=w,u4[1]=x,u4[2]=y,u4[3]=z,u.u4(v,u4)),
 tG='Génération',EM=[...'⏳🔔🚩🌀🌊💎📌🏮✨📍💠⚡🔆💫'],BT=[...'🔶🔁🌞🎲🪘❌🌓'],
 VN='vmin;',v1='1'+VN,v2='2'+VN,v5='5'+VN,vh='0.5'+VN,B_=wd+'100%;',BR=br+v1,PD=pd+v1,G1='gap:'+v1,
@@ -62,6 +62,7 @@ d0=dC_+H5,S7=pr+wd+'7vw;'+d0,S8=I_+d0+wd+'8vw;',cH=B_+hc+pr+mh+'0',
 S9=px+'inset:0;margin:auto;height:fit-content;'+wd+'90'+VN+bC+PD+BR+S1+zi+'100;white-space:pre-line;'+bd+bB_,
 sW=pa+to+'0;'+rg+'0;'+wd+'28'+VN+bc+BR+zi+'2;'+dg+'grid-template-columns:repeat(3,1fr);'+ai+pd+v1+G1+dn,
 sZ=px+tL+B_+hc+co+c1+';'+BR+S1+zi+'99;'+db+bT+bB_,
+sK=px+to+'0;'+lf+'0;'+B_+'bottom:12vmin;'+zi+'50;',
 bb=BR+fz+'3'+VN+cu+H5+pr+oH+bd+'none;'+pd+v1+' '+v2+co+c0+';',
 mX=(w,fn,x)=>(x=mD(BT[5],pa+to+vh+rg+vh+IR+zi+'2'),e_(x,fn),ap(w,x),x),
 nT=null,nW=0,nH=0,
@@ -100,14 +101,14 @@ tK=(u,v)=>{let w=u*b+v*s,x=dC(u,v),y=_S[w+1],z=.5+ab(x)/2;_S[w+14]=sg_(_S[w+4])*
 rC=(i,c)=>{let u=E[i]?.[0],d;u&&(d=dC(i,c),Ub[i*4+2]=c?ma(Ub[i*4+2],d):(u._L!=$L&&gr(u),Ub[i*4]=u._y*dP,Ub[i*4+1]=u._H*dP,d))},lC=l2(rC),
 rw=0,rx=0,ru=null,ry=y=>{let z=(ru[y+2]-ru[y])/2;z&&(rw+=ab(ru[y+2]-2*ru[y+1]+ru[y])/z,rx++)},lR=lp(ry),
 R_=(u,v)=>v>10?(ru=u,rw=rx=0,lR(0,v-2),rx?rw/rx:0):0,
-mo,sl=[],ga=[],cv,zm,gT='',rS='',dx=[],dk=[],ds=new T8(6),dt=[[],[]],pA,pg,pB,pL,pU,cB,cx,rO,t0=Tt=aT=vX=aU=pT=mP=0,rH=ZW=gp=fx=null,_X,jA,Ub=n5(4096),fB=n5([0,2,0,0]),bN,
+mo,sl=[],ga=[],cv,zm,gT='',rS='',dx=[],dk=[],ds=new T8(6),dt=[[],[]],pA,pg,pB,pL,pU,pY,cB,cx,rO,t0=Tt=aT=vX=aU=pT=mP=0,rH=ZW=gp=fx=null,_X,jA,Ub=n5(4096),fB=n5([0,2,0,0]),bN,
 _A=n5(256),_U=new T3(_A.buffer),u4=sA(_A,10,14),vZ=sA(_A,0,2),
 Tb=n5(12),xl=sA(Tb,0,3),xr=sA(Tb,3,6),qR=sA(Tb,6,12),
 bq=u=>qO(qR[u]*100,1),zR=()=>(vZ[1]=1/Tt,vZ[0]=0,gT=ti(Tt),uc(),rD()),
 uh=['','',''],mY=[0,0,0,n5(M2)],
 bA,vO,tf,dY=()=>fx&&(gW.dS(fx),fx=null),g3=(u,v,w)=>u.getUint32(v,w),g1=(u,v,w)=>u.getUint16(v,w),
 ig=()=>(gp={tN:gW.cq(),tS:gW.cq()},gW.bx(w2,gp.tN),tO(gW),gW.bx(w2,gp.tS),tO(gW)),
-qS=(u,v)=>gW.cW(u,0,0)==37147?tm(qS,5,u,v):(dY(),v()),
+qS=(u,v)=>gW.cW(u,1,1e6)==37147?tm(qS,0,u,v):(dY(),v()),
 sX=u=>{let v=u/sr;s4(gW,gW.U4_,v*fc[0]-(v*fc[0]|0),v*fc[1]-(v*fc[1]|0),v*fc[2]-(v*fc[2]|0),v*18200-(v*18200|0)),s4(gW,gW.U5_,v*20-(v*20|0),0,0,0),s4(gW,gW.U2_,Tt,u,1/Tt,sL-1)},
 iP=()=>{pA=gW.cP(),gW.aS(pA,s_(gW,wV,v0+v3+`out n a_;void main(){`+
 `n vc=U_[0].x;q u=U_[2];r_=n(l&1);n id=n(l>>1),aI=u.y+id,t=aI/vc,d=0.;int k=0;`+vC+
@@ -122,11 +123,17 @@ tf=gW.createTransformFeedback(),gW.bindTransformFeedback(36386,tf),gW.bindBuffer
 gW.U4_=gu(pA,4),gW.U5_=gu(pA,5),gW.U2_=gu(pA,2),
 gW.uP(pA),gW.ui(gu(pA,'N_'),0),gW.ui(gu(pA,'S_'),1),s4(gW,gu(pA,0),sr,0,0,0)},
 eC=async(u,v,w)=>{tX(gW),sX(v),gW.en(35977),gW.beginTransformFeedback(0),gW.dA(0,0,u),gW.endTransformFeedback(),gW.di(35977),
-dY(),fx=gW.fS(37143,0),gW.fl(),await nP(y=>qS(fx,y)),(!_X||_X[_L]!=u)&&(_X=new f5(u)),gW.gB(wT,0,_X,0,u),w.set(_X,v*2)},
-eR=async(u,v,w,x,y)=>{let z=0;gW.uP(pA),gW.bV(vO);while(z*M2<w){await eC(mi(M2,w-z*M2),z*M2/2,v),c$(y),z++,x(z*M2/w,'Génération XFB'),await wI()}},
+dY(),fx=gW.fS(37143,0),gW.fl(),gW.cW(fx,1,1e6)==37147&&await nP(y=>qS(fx,y)),dY(),(!_X||_X[_L]!=u)&&(_X=new f5(u)),gW.gB(wT,0,_X,0,u),w.set(_X,v*2)},
+rY=u=>{gW.uP(pY||(pY=gW.cP(),gW.aS(pY,s_(gW,wV,v0+`out vec2 p;void main(){vec2 v=vec2(l&1,l>>1)*4.-1.;p=v;g=vec4(v,0,1);}`)),gW.aS(pY,s_(gW,wF,v0+`in vec2 p;out q f;void main(){n r=length(p),a=atan(p.y,p.x);f=q(cos(a*9.+r*24.-U_[0].x*tp+vec3(0,2,4))*.5+.5,1.);}`)),gW.lP(pY),gW.uP(pY))),s4(gW,gu(pY,0),u,0,0,0),gW.vp(0,0,C_.width,C_.height),gW.sz(0,0,C_.width,C_.height),gW.bV(gW.vU),gW.dA(4,0,3)},
+kX=null,
+cM_=y=>{cB.style.opacity=1,cT(rH),kX&&(kX.remove(),kX=null),y==$c&&rD()},
+eX_=(y,mD_)=>{if(kX)return cM_(y);cT(rH),mD_||(rH=tm(()=>cM_(y),10000));
+let lP_=()=>{y==$c&&kX?(rY((pN()-t0)*.001),rA(lP_)):cM_(y)};
+cB.style.opacity=0,kX=mD(sK),mX(kX,()=>cM_(y)),ap(W_,kX),rA(lP_)},
+eR=async(u,v,w,x,y)=>{let z=0,tS=pN();gW.uP(pA),gW.bV(vO);while(z*M2<w){await eC(mi(M2,w-z*M2),z*M2/2,v),c$(y),z++,x(z*M2/w,'Génération XFB'),rY((pN()-tS)*.001),await wI()}sU_(URL.createObjectURL(new Blob([u],{type:'audio/wav'}))),rB(pN()-t0),eX_(y,0)},
 eI=async(u,v,y,z)=>(!gp&&ig(),!pA&&iP(),wW(new T3(u),44+v*4),await eR(u,new Ti(u,44),v*2,y,z),u),
 sU_=u=>(rO&&URL.revokeObjectURL(rO),au.src=rO=u),
-eA=async u=>(Tt<=0||sL<=1?Promise.reject('A'):(await wI(),u=await eI(new ArrayBuffer(44+(Tt*sr|0)*4),Tt*sr|0,u,++$c),sU_(URL.createObjectURL(new Blob([u],{type:'audio/wav'}))))),
+eA=async u=>(Tt<=0||sL<=1?Promise.reject('A'):(await wI(),eI(new ArrayBuffer(44+(Tt*sr|0)*4),Tt*sr|0,u,++$c))),
 j0=u=>(u<2&&dx[u]?.[_L]!=_U[114]*4&&(dx[u]=n5(_U[114]*4)),dk[u]?.[_L]!=_U[114]&&(dk[u]=n5(_U[114]))),
 gZ=u=>{let w=tp*fc[u]/(_U[115]*300);_A[42+u]=w,_A[36+u]=cs(w),_A[39+u]=sn(w),_A[20+u]=2*_A[36+u]},lF_=lp(gZ),
 j6=u=>dx[u]&&((!dt[u0][u]||(ds[u]&vB))&&(dt[u0][u]=dt[u0][u]||gW.cB(),bW(gW,dt[u0][u],dx[u]),ds[u]&=~vB),Z_>1&&(gW.bB(wB,dt[u0][u]),gW.vA(gW.bL,3,w3,!1,y0*16,V_*16),gW.vD(gW.bL,1),s4(gW,gW.bU,Z_-1,1-u*.5,.5,0),gW.dI(5,0,4,Z_-1))),
@@ -143,7 +150,7 @@ xP=u=>P[u*13+11].includes('%')?100:1,
 xD=(u,v)=>ma(0,xC(P[u*13+10])-(v>1?2:0)),
 au,f_,eb,eg,et,W_,
 rB=u=>eb&&(eb.disabled=0,eg.style.width='0%',W(et,u>0?tG+` (${qO(u,1)}ms)`:tG)),
-rE=async u=>(!eb.disabled&&(eb.disabled=1,W(et,'⏳ ...'),t0=pN(),await u().then(()=>rB(pN()-t0)).catch(v=>(dY(),v!='A'&&(W(et,'⏹ '+v),eb.disabled=0))))),
+rE=async u=>(!eb.disabled&&(eb.disabled=1,W(et,'⏳ ...'),t0=pN(),await u().catch(v=>(dY(),v!='A'&&(W(et,'⏹ '+v),eb.disabled=0))))),
 uP=(p,m_)=>{if(!p)return;eg.style.width=p*100+'%',W(et,m_?`⏳ ${p*100|0}% - ${m_}`:tG)},
 T$=()=>(
 Tt=0,lA(0,sL-1),pT=Tt,
@@ -237,9 +244,9 @@ T$(),J(),ud()
 J=async(cZ,zM,zW,cX,uQ)=>{
 vX=uQ=0,rB(),!mo&&(mo=mD(pr+B_+hg+'25vh;'+co+c1+';'),
 cv=mk(_v,'',B_+hc+db),zm=mk(_v,'',B_+hc+db+mh+'0;'),gT=ti(Tt),
-cZ=mD(cH),ap(cZ,cv),ap(mo,cZ),uS(cv),RO.observe(cv),e_(cv,()=>{if(ZW)return;zM=mD(sZ),zW=mD(cH+';'),
-ZW=zM,cX=mX(zW,()=>(RO.unobserve(zm),ZW.remove(),ZW=null,cB.style.opacity=1,bN.style.opacity=1,rD())),
-cB.style.opacity=0,bN.style.opacity=0,ap(zW,zm),ap(zM,zW),ap(W_,zM),RO.observe(zm),$L++,
+cZ=mD(cH),ap(cZ,cv),ap(mo,cZ),uS(cv),RO.observe(cv),e_(cv,()=>{if(ZW||kX)return;zM=mD(sZ),zW=mD(cH+';'),
+ZW=zM,cX=mX(zW,()=>(RO.unobserve(zm),ZW.remove(),ZW=null,cB.style.opacity=1,rD())),
+cB.style.opacity=0,ap(zW,zm),ap(zM,zW),ap(W_,zM),RO.observe(zm),$L++,
 rD();
 let _r=()=>!uQ&&(uQ=1,rA(()=>(rD(),uQ=0))),
 um=u=>{let v=u.touches?u.touches[0]:u,w=gr(zm);vZ[0]=kk((v.clientX-w._bL)/w._bW-vZ[1]/2,0,1-vZ[1]),_r()},
@@ -319,12 +326,13 @@ W(u,'*{scrollbar-width:none}::-webkit-scrollbar{display:none}input[type=range]::
 ap(d.head,u),f_=mD(zi+'1;'+B_),eb=mk('button','',bb+bg+'#4af;'+mw+'30vw;'),eg=mD(pa+tL+hc+wd+'0%;'+bg+'linear-gradient(90deg,#0f0,#4f4);transition:width 0.3s;'),et=mk('span',tG,pr+zi+'1;'+co+'black;');
 ap(eb,eg,et),au=mk('audio','',B_+hg+v5),au.controls=1,e_(eb,()=>(T$(),rE(()=>eA(uP)))),z.type='file',z.accept='audio/*';
 ev(z,'change',t=>{let f=t.target.files[0];f&&(sU_(URL.createObjectURL(f)),rE(async()=>(await dc(await f.arrayBuffer(),uP),aU=rO)).finally(()=>z.value=''))});
-ap(w,mD(bK[0],IR+S7),mD(bK[1],IB+S7),eb,mD(bK[2],S8),mD(bK[3],S8),mD(bK[4],S8));
+ap(w,mD(bK[0],IR+S7),mD(bK[1],IB+S7),mD(bK[2],IB+S7),eb,mD(bK[3],S8),mD(bK[4],S8),mD(bK[5],S8));
 e_(w,hE(bK,async k=>(
 k==0?(d.fullscreenElement?d:e)[d.fullscreenElement?'exitFullscreen':'requestFullscreen']():
 k==1?sp(y):
-k==2?(dY(),$c++,rB(),sU_(''),W(et,'⏹ Annulé')):
-k==3?z.click():
+k==2?(t0=pN(),eX_(++$c,1)):
+k==3?(dY(),$c++,rB(),sU_(''),W(et,'⏹ Annulé')):
+k==4?z.click():
 au.src&&(au.src==aU?(vX^=1,Tt=vX?aT:pT,zR()):rE(async()=>(await dc(await(await fetch(au.src)).arrayBuffer(),uP),aU=au.src)))
 )));
 ap(v,w,au,z),ap(f_,mo,v),ap(W_,f_);
