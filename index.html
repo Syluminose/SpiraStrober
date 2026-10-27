@@ -4,31 +4,31 @@
 let P=[1,300,10,10,0,0,0,0,1,'Durée\n(s)',0,0,100,8,18,0,0,0,0,.1,'Freq\n(Hz)',1,-.5,.5,0,0,0,0,0,.5,.01,'ΔΦ\n(Cy)',1,.6,50,1,5,0,0,0,0,.01,'Dev PM\n(Cy)',1,0,50,0,16,0,0,0,0,.1,'Dev 𝛼-PM\n(Cy/sᵅ)',1,1,5,1,1,0,0,0,0,.01,'FO 𝛼-PM\n(-)',1,-.5,.5,0,0,0,0,0,0,.01,'ΔΦ 𝛼-PM\n(Cy)',1,0,1,.8,.8,0,0,0,0,.001,'Amb AM\n(%)',1,0,1,.05,.2,0,0,0,0,.01,'Fₘ AM\n(Hz)',1,-.5,.5,0,0,.16,.33,0,0,.01,'ΔΦ AM\n(Cy)',1,0,.5,.5,.5,0,0,0,0,.01,'Skew\n(-)',1,0,.5,.5,.5,0,0,0,0,.01,'Shape\n(%)',1,0,1,.05,.05,-.05,-.05,0,0,.001,'Amb\n(%)',1,.2,.5,.2,.2,0,0,0,0,.001,'Jitter\n(%)',0],$n='none',$b='block',$g='grid',rc=u=>crypto.getRandomValues(u),
 a=.125,am=a/4,d=document,ce=u=>()=>d.createElement(u),cD=ce('div'),c=ce('input'),cC=ce('canvas'),
 e=d.documentElement,eW=()=>e.clientWidth,eH=()=>e.clientHeight,s=18,b=s*6,k=s*3,sL=0,E=[],ct='#fffd',mg=1,$c=$L=0,f5=Float32Array,
-_L='length',M2=1<<20,B2=1<<22,K4=16384,c$=u=>{if(u!=$c)throw'A'},{max:ma,min:mi,sin:sn,cos:cs,abs:ab,sign:sg,PI:pi,sqrt:sq,fround:fd,round:ro,clz32:cz}=Math,
+_L='length',tC='textContent',M2=1<<20,B2=1<<22,K4=16384,c$=u=>{if(u!=$c)throw'A'},{max:ma,min:mi,sin:sn,cos:cs,abs:ab,sign:sg,PI:pi,sqrt:sq,fround:fd,round:ro,clz32:cz}=Math,
 T8=Uint8Array,Ti=Int16Array,T3=Uint32Array,cr=new T3(1),xR=new T3(K4),rn=()=>rc(cr)[0]/2**32,
-tp=pi*2,sr=44100,fc=[18700,19200,19700],km=(u,v)=>{_S[u]=ma(P[v],mi(P[v+1],_S[u]))},
+tp=pi*2,sr=44100,fc=[18700,19200,19700],km=(u,v)=>{S[u]=ma(P[v],mi(P[v+1],S[u]))},
 kk=(u,v,w)=>ma(v,mi(w,u))|0,gR=u=>u.getBoundingClientRect(),
-gr=(u,v)=>(v=gR(u),uM[4]=(uM[0]=v.left)+(uM[2]=v.width)*.5,uM[5]=(uM[1]=v.top)+(uM[3]=v.height)*.5,uM),
-W=(u,v)=>u.textContent=v,cK=(u,v,w)=>_S.copyWithin(u,v,w),cM=()=>(cT(rH),cT(bt)),
+gr=(u,v)=>(v=gR(u),U[4]=(U[0]=v.left)+(U[2]=v.width)*.5,U[5]=(U[1]=v.top)+(U[3]=v.height)*.5,U),
+W=(u,v)=>u[tC]=v,sC=(u,v)=>u.style.cssText=v,cK=(u,v,w)=>S.copyWithin(u,v,w),cM=()=>(cT(rH),cT(bt)),
 [bg,zi,co,bd,br,wd,hg,mw,mh,to,lf,rg,pd,ai,tx,pe,fw,fz,cu,cw,dg,cn,pa,pr,px,dn,hc,o0,aN,oA]=
 "background:|z-index:|color:|border:|border-radius:|width:|height:|min-width:|min-height:|top:|left:|right:|padding:|align-items:center;|text-align:center;|pointer-events:none;|font-weight:bold;|font-size:|cursor:pointer;|white-space:pre;color:|display:grid;|place-items:center;|position:absolute;|position:relative;|position:fixed;|display:none;|height:100%;|opacity:0;|appearance:none;background:var(--c);|overflow-y:auto;".split('|'),
 cT=clearTimeout,pN=u=>performance.now()-u|0,tm=setTimeout,nP=u=>new Promise(u),
-dP=devicePixelRatio,uD=u=>u*dP|0,eP=u=>u.preventDefault(),mD=(u,v,w)=>(w=cD(),v&&W(w,u),w.style.cssText=v||u,w),sF=(u,v)=>u.style.display=v,sD=u=>sF(u,$n),
+dP=devicePixelRatio,uD=u=>u*dP|0,eP=u=>u.preventDefault(),D=(u,v,w)=>(w=cD(),v&&W(w,u),sC(w,v||u),w),sF=(u,v)=>u.style.display=v,sD=u=>sF(u,$n),
 sK=(u,v)=>{v=bN.style,v.opacity=u=eB||u,ZW&&u&&!eB?tm(()=>ZW&&+v.opacity&&(v.pointerEvents='auto'),1e3):v.pointerEvents=u?'auto':$n},uL=u=>URL.createObjectURL(u),cN=u=>u.childNodes,
 lp=z=>(u,v)=>{for(;u<v;u++)z(u)},l2=z=>(u,v,w,x)=>{for(;u<v;u++)for(let y=w;y<x;y++)z(u,y)},
 ap=(u,...v)=>(u.append(...v),u),ev=(u,v)=>C_.addEventListener('webglcontext'+u,v),
-e_=(u,v)=>(u._=v,u),hE=v=>(w,x)=>((x=w.target.textContent)[_L]<5&&(x=BT.indexOf(x))>=0?(v(x),1):0),eG=(u,v)=>e_(u,hE(w=>(v(w),sL&&At()))),n5=u=>new f5(u),
-c0='#000',cb='#f40',bC=bg+c0+';'+co+'#fff;',oH='overflow:hidden;',mC='max-content',
+e_=(u,v)=>(u._=v,u),hE=v=>(w,x)=>((x=w.target[tC])[_L]<5&&(x=BT.indexOf(x))>=0?(v(x),1):0),eG=(u,v)=>e_(u,hE(w=>(v(w),sL&&At()))),n5=u=>new f5(u),
+c0='#000',cb='#f40',c1=co+c0+';',bC=bg+c0+';'+co+'#fff;',oH='overflow:hidden;',mC='max-content',
 tL=to+'0;'+lf+'0;',dG=dg+'grid-auto-flow:column;',dJ=dG+'justify-content:space-between;'+ai,b1='1px solid ',bT='border-bottom:',bF=b1+cb,dI=dg+cn,
 cG='#ff0,#f0f,#0ff,#0f0'.split(','),cA='#c00,#0c0,#00c'.split(','),aA='⫷⪡⪢⫸',
-sA=(u,v,w)=>u.subarray(v,w),s4=(v,w)=>gW.uniform4fv(v,Q,w,4),sqf=(u,v,x,y,z)=>(Q[v]=x,Q[v+1]=y,Q[v+2]=z,s4(u,v)),
+sA=(u,v,w)=>u.subarray(v,w),s4=(v,w)=>G.uniform4fv(v,Q,w,4),q4=(u,v,x,y,z)=>(Q[v]=x,Q[v+1]=y,Q[v+2]=z,s4(u,v)),
 tG='Génération',EM=[...'⏳🔔🚩🌀🌊💎📌🏮✨📍💠⚡🔆💫'],BT=[...'🔶🔁🌞🎲🪘🌓📝🌟❌🔻🔺⭕⛶💡🪩⏹📂🔍'],
-VN='vmin;',v1='1'+VN,v2='2'+VN,v5='5'+VN,vh='.5'+VN,B_=wd+'100%;',BR=br+v1,PD=pd+v1,G1='gap:'+v1,
+VN='vmin;',v1='1'+VN,v2='2'+VN,v4='3'+VN,v5='5'+VN,vh='.5'+VN,B_=wd+'100%;',BR=br+v1,PD=pd+v1,G1='gap:'+v1,
 S1=fz+v2,S2=fz+v5,S0=fz+'2.5'+VN+fw,S3=S0+cu+tx,I_=cu+S2,iB=u=>I_+cw+u+';',IB=iB(c0),IR=iB('#f44'),
 wB=34962,wD=35048,wT=35982,w2=3553,w1=33985,w3=5126,wR=35977,
-bD=(u,v)=>gW.bindBuffer(u,v),uB=u=>gW.bindBufferBase(wT,u,null),bB=(u,v,w,x)=>{gW.bindBufferRange(wT,u,v,x,B2),w&&gW.bufferData(wT,w,wD)},cF=()=>gW.createBuffer(),
-vA=(u,v,w)=>gW.vertexAttribPointer(u,v,w3,!1,sT,w),vD=u=>gW.vertexAttribDivisor(0,u),
-v0=`#version 300 es\nprecision highp float;\n#define n float\n#define v2 vec2\n#define q vec4\n#define rr return\n#define tp ${tp}\n#define E_(t,p) texelFetch(t,ivec2(p&255,p>>8),0)\n#define g gl_Position\n#define l gl_VertexID\n#define s gl_InstanceID\n#define M void main()\nuniform q U_[2];\n`,
+bD=(u,v)=>G.bindBuffer(u,v),uB=u=>G.bindBufferBase(wT,u,null),bB=(u,v,w,x)=>{G.bindBufferRange(wT,u,v,x,B2),w&&G.bufferData(wT,w,wD)},cF=()=>G.createBuffer(),
+vA=(u,v,w)=>G.vertexAttribPointer(u,v,w3,!1,sT,w),vD=u=>G.vertexAttribDivisor(0,u),
+v0=`#version 300 es\nprecision highp float;\n#define n float\n#define v2 vec2\n#define q vec4\n#define rr return\n#define tp ${tp}\n#define C clamp\n#define E_(t,p) texelFetch(t,ivec2(p&255,p>>8),0)\n#define G(x) gl_Position=q(x,0,1);}\n#define l gl_VertexID\n#define s gl_InstanceID\n#define M void main()\nuniform q U_[2];\n`,
 v3=`uniform sampler2D N_,S_;`+
 `q V_(int p){rr E_(S_,p);}n F_(int i){q v=V_(i>>2);rr v[i&3];}int r_;n t,d;\n`+
 `q Ec(int k,int j){int B=k*108+j+r_*54;rr q(F_(B),F_(B+18),F_(B+36),0.);}q T(q x,q y,n z){rr mix(x,y,t/z);}q I(q x,q y){rr t*T(x,y,2.*d);}`+
@@ -38,191 +38,185 @@ v3=`uniform sampler2D N_,S_;`+
 `q J(q u){ivec4 k=ivec4(floor(u));q f=fract(u),a=G_(k,-1),b=G_(k,0),c=G_(k,1),d=G_(k,2);rr b+.5*f*(c-a+f*(2.*a-5.*b+4.*c-d+f*(3.*(b-c)+d-a)))-.5;}\n`+
 `#define B_(x) Ec(k,x),Ec(k+1,x)\n#define TB(x) T(B_(x),d)\n#define A_(f,p,x) (I(B_(f))+TB(p)+Ec(k,x))\n`,
 vC=u=>`;int k=0,ds;for(;k<int(u.w);k++){d=V_(k*27).x;ds=int(d*${sr}.);if(u_<ds||k==int(u.w)-1)break;u_-=ds;}t=n(u_)/${sr}.;`+u+`q o=A_(14,6,16),f0=A_(1,2,15),fi=f0+TB(13)*J(f0)+TB(3)*.5*W(o),S=mix(TB(7),q(1.),U(W(A_(8,9,17))))*mix(TB(12),q(1.),U(P(fi,TB(10),TB(11))));`,
-C_=cC(),gW=C_.getContext('webgl2',{alpha:!1,antialias:!0,depth:!1,preserveDrawingBuffer:!0}),
-s_=(u,v,w)=>(w=gW.createShader(u),gW.shaderSource(w,v0+v),gW.compileShader(w),w),
-yP=u=>gW.useProgram(u),bV=u=>gW.bindVertexArray(u),cV=()=>gW.createVertexArray(),
-aS=(u,v,w)=>gW.attachShader(u,s_(v,w)),
-gs=(u,v)=>gW.getUniformLocation(u,v),gu=(u,v)=>gs(u,`U_[${v}]`),uI=(u,v,w)=>gW.uniform1i(gs(u,v),w),
-cP=(u,v,w,x)=>(x=gW.createProgram(),aS(x,35633,u),aS(x,35632,w?'M{}':'out q f;'+v),w&&gW.transformFeedbackVaryings(x,w>1?['a_','b_']:['a_'],35981),gW.linkProgram(x),yP(x),w&&(uI(x,'N_',0),uI(x,'S_',1)),x),
-tP=u=>gW.texParameteri(w2,u,9728),wt=(u,v)=>(gW.activeTexture(w1+u),gW.bindTexture(w2,v)),tO=u=>(wt(1,u=gW.createTexture()),tP(10240),tP(10241),u),tX=()=>(wt(-1,gp),wt(0,txS)),vs=(u,v,w,x)=>(gW.viewport(u,v,w,x),gW.scissor(u,v,w,x)),
-fT=(u,v,y)=>(wt(u,v),gW.texImage2D(w2,0,u<0?33326:34836,256,y[_L]>>(u<0?8:10),0,u<0?6403:6408,w3,y)),
-dA=u=>gW.drawArraysInstanced(5,0,4,u),dW=(u,v)=>gW.drawArrays(u,0,v),eV=u=>gW.enableVertexAttribArray(u),
+C_=cC(),G=C_.getContext('webgl2',{alpha:!1,antialias:!0,depth:!1,preserveDrawingBuffer:!0}),
+s_=(u,v,w)=>(w=G.createShader(u),G.shaderSource(w,v0+v),G.compileShader(w),w),
+yP=u=>G.useProgram(u),bV=u=>G.bindVertexArray(u),cV=()=>G.createVertexArray(),
+aS=(u,v,w)=>G.attachShader(u,s_(v,w)),
+gs=(u,v)=>G.getUniformLocation(u,v),gu=(u,v)=>gs(u,`U_[${v}]`),uI=(u,v,w)=>G.uniform1i(gs(u,v),w),
+cP=(u,v,w,x)=>(x=G.createProgram(),aS(x,35633,(w?v3:'')+u),aS(x,35632,w?'M{}':'out q f;'+v),w&&G.transformFeedbackVaryings(x,w>1?['a_','b_']:['a_'],35981),G.linkProgram(x),yP(x),w&&(uI(x,'N_',0),uI(x,'S_',1)),x),
+tP=u=>G.texParameteri(w2,u,9728),tO=lp(u=>(G.activeTexture(w1+u),G.bindTexture(w2,G.createTexture()),tP(10240),tP(10241))),
+vs=(u,v,w,x,y)=>(G.viewport(u,v,w,x),G.scissor(u,v+y,w,x-y)),
+fT=(u,y)=>(G.activeTexture(w1+u),G.texImage2D(w2,0,u<0?33326:34836,256,y[_L]>>(u<0?8:10),0,u<0?6403:6408,w3,y)),
+dA=u=>G.drawArraysInstanced(5,0,4,u),dW=(u,v)=>G.drawArrays(u,0,v),eV=u=>G.enableVertexAttribArray(u),
 S4=dG+ai+G1,H5=hg+v5,bs=pr+cu+pd+vh+BR+cw+c0+';'+dI+tx+mw+'12'+VN,bc=bg+ct+';',sM=mw+'20'+VN+dG+'gap:'+vh+o0,
 h8=hg+'8'+VN,S5=bs+h8,sG=bs+hg+'10'+VN,
 s9=px+wd+'90'+VN+zi+'99;'+BR+PD+bd,d0=dI+H5,S7=pr+wd+'7vw;'+d0,S8=I_+d0+wd+'8vw;',cH=B_+hc+pr+mh+'0',
 sW=pa+to+'0;'+rg+'0;'+bc+BR+zi+'2;'+S4+pd+vh+dn,
-mX=(u,v)=>ap(u,e_(mD(BT[8],pa+to+vh+rg+vh+IR+zi+'2;'),v)),
+mX=(u,v)=>ap(u,e_(D(BT[8],pa+to+vh+rg+vh+IR+zi+'2;'),v)),
 nT=n5(0),uR=0,fP=v=>nT[uR+v]=xR[v]/2**32,lP=lp(fP),
 pn=(u,v)=>{v=1<<32-cz(ma(255,u+2));nT=n5(v);for(uR=0;uR<v;uR+=K4)rc(xR),lP(0,mi(K4,v-uR))},
-qc=u=>(cM(),rH=tm(u,20)),qa=u=>cx.font="bold "+u+"px sans-serif",
-uS=()=>cv&&(gr(cv),qD[2]=uD(uM[2]),qD[3]=uD(uM[3]),qD[4]=uM[0]*dP,qD[5]=qD[1]-uD(uM[1])-qD[3]),
+qc=u=>(cM(),rH=tm(u,20)),qa=u=>C.font="bold "+u+"px sans-serif",
+uS=()=>cv&&(gr(cv),qD[2]=uD(U[2]),qD[3]=uD(U[3]),qD[4]=U[0]*dP,qD[5]=qD[1]-uD(U[1])-qD[3]),
 RO=new ResizeObserver(uS),
 wH=new T3([1179011410,0,1163280727,544501094,16,131073,sr,sr*4,1048580,1635017060,0]),
 o1={once:!0},tW={type:'audio/wav'},sR=[sr,48000,32000],
-sp=(u,v,w)=>(v=mD(s9+bF+';inset:0;margin:auto;height:fit-content;'+bC+S1+'white-space:pre-line;'),mX(v,w=()=>v.remove()),ap(e,ap(v,...u)),tm(()=>d.addEventListener('click',w,o1),500)),
-N=[mD(oA+hc),mD(pr+hg+mC+';')],vM=u=>{sF(N[0],u),sF(mo,u)},_S=n5(7168),uF=n5(4),uM=n5(6),
+sp=(u,v,w)=>(v=D(s9+bF+';inset:0;margin:auto;height:fit-content;'+bC+S1+'white-space:pre-line;'),mX(v,w=()=>v.remove()),ap(e,ap(v,...u)),tm(()=>d.addEventListener('click',w,o1),500)),
+N=[D(oA+hc),D(pr+hg+mC+';')],vM=u=>(sF(N[0],u),sF(mo,u)),S=n5(7168),F=n5(4),U=n5(6),
 mU=mK=mV=0,bS,pK=u=>P[u*11+10],rQ=(u,v,w)=>{w=P[u+8],u+=v,sN[0][v]=P[u]+(rn()*((P[u+1]-P[u])/w+1)|0)*w},
-sw=(x,y,z)=>{y=mU+oZ+x*s,mK<1?_S[y]=_S[oZ+x*s]:mK<2?x<3&&pK(oZ)&&(z=_S[y],_S[y]=_S[y+k],_S[y+k]=z):mK<3?x<2&&(_S[y=mU+oZ+x*k]=_S[y+s*2]=_S[y+s]):mK<4?(_S[y]=sN[0][2]+(x-(x>2)*3-1)*oX+(x>2?oY:-oY),km(y,oZ*11)):x<3&&(_S[y]=_S[y+k]=fd((_S[y]+_S[y+k])/2))},_W=lp(sw),
+sw=(x,y,z)=>{y=mU+oZ+x*s,mK<1?S[y]=S[oZ+x*s]:mK<2?x<3&&pK(oZ)&&(z=S[y],S[y]=S[y+k],S[y+k]=z):mK<3?x<2&&(S[y=mU+oZ+x*k]=S[y+s*2]=S[y+s]):mK<4?(S[y]=sN[0][2]+(x-(x>2)*3-1)*oX+(x>2?oY:-oY),km(y,oZ*11)):x<3&&(S[y]=S[y+k]=fd((S[y]+S[y+k])/2))},_W=lp(sw),
 fK=(w,x)=>{oZ=w,mK==3&&(x=w*11,rQ(x,2),oX=oY=pK(w),oX&&(rQ(x,4),rQ(x,6),oX=sN[0][4],oY=sN[0][6]/2)),_W(0,6)},lF=lp(fK),
 tF=(u,v)=>(mU=v*b,mK=u,lF(0,14)),
 dL=(u,v,w,x)=>{x=w*b,(u*v||v==1)?tF(v,w):u?w&&cK(x,x-b,x):(iR(w+1,+!v),v&&~v&1&&tF(v,w+1))},
-R$=(u,v)=>{if(u*b>_S[_L]){v=n5((u*b+1023)&~1023),v.set(_S),_S=v}sL=u},
+R$=(u,v)=>{if(u*b>S[_L]){v=n5((u*b+1023)&~1023),v.set(S),S=v}sL=u},
 iR=(u,v)=>{R$(sL+1),cK((u+1)*b,u*b,(sL-1)*b),v?cK(u*b,(u-1)*b,u*b):tF(3,u)},
 rd=u=>(cK(u*b,(u+1)*b,sL*b),R$(sL-1)),
-M=(u,v,w,x)=>(x=_S[u+w]+_S[u]*(_S[u+v]+_S[u+b+v])*.5,_S[u+b+w]=w>15?x-((x|0)-(x<0)):x),
-tK=(u,v,w,x,y,z)=>{w=u*b+v*s,x=sg(_S[w+4])*(ab(_S[w+4])/ma(1e-5,ab(_S[w+3])))**(1/_S[w+5]),_S[w+14]=x/tp,x*=_S[w+3],v<3&&(Ub[u*4+2]=v?ma(Ub[u*4+2],x):x),y=_S[w+1],z=.5+ab(x)/2,Q[8]=mi(Q[8],y-z),Q[10]=ma(Q[10],y+z),u?(w-=b,!v&&(Tt+=_S[w]),M(w,14,16),M(w,8,17),mP=ma(mP,M(w,1,15))):_S[w+15]=_S[w+16]=_S[w+17]=0},lB=l2(tK),
-rC=(u,v)=>{(v=E[u])&&(v=gR(v),Ub[u*4]=(v.top+uF[3])*dP,Ub[u*4+1]=v.height*dP)},lC=lp(rC),
+M=(u,v,w,x)=>(x=S[u+w]+S[u]*(S[u+v]+S[u+b+v])*.5,S[u+b+w]=w>15?x-((x|0)-(x<0)):x),
+tK=(u,v,w,x,y,z)=>{w=u*b+v*s,x=sg(S[w+4])*(ab(S[w+4])/ma(1e-5,ab(S[w+3])))**(1/S[w+5]),S[w+14]=x/tp,x*=S[w+3],v<3&&(Ub[u*4+2]=v?ma(Ub[u*4+2],x):x),y=S[w+1],z=.5+ab(x)/2,Q[8]=mi(Q[8],y-z),Q[10]=ma(Q[10],y+z),u?(w-=b,!v&&(Tt+=S[w]),M(w,14,16),M(w,8,17),mP=ma(mP,M(w,1,15))):S[w+15]=S[w+16]=S[w+17]=0},lB=l2(tK),
+rC=(u,v)=>{(v=E[u])&&(v=gR(v),Ub[u*4]=(v.top+F[3])*dP,Ub[u*4+1]=v.height*dP)},lC=lp(rC),
 rw=rx=0,ru=n5(0),ry=(y,z)=>{(z=(ru[y+2]-ru[y])/2)&&(rw+=ab(ru[y+2]-2*ru[y+1]+ru[y])/z,rx++)},lR=lp(ry),
-mo,cv,rS='',dx=[],dk=[],dt=[[],[]],pA,pg,pB,pL,pU,pY,cB=cC(),cx=cB.getContext('2d'),rO,t0=Tt=vX=aU=pT=mP=eB=rH=bt=ZW=zT=gp=txS=fx=ad=gL=vR=dB=csW=snW=gT=0,xZ=1,mZ,qD=new T3(6),kY=[],jA,jB,Ub=n5(4096),bN,U2,l0,l1,b2,yU,c2,c3,lS,tB,g0=[0,0],oW,oZ,oX,oY,z1,z2,z3,r2,
-_A=n5(64),_U=new T3(_A.buffer),Q=sA(_A,48,64),vZ=sA(_A,0,2),g1=sA(_A,4,8),_m=sA(_A,15,18),
-Tb=new T3(6),fr=n5(108),
-zR=()=>(_U[14]=Tt*900|0,vZ[1]=1/Tt,vZ[0]=gT=0,uc(),rD()),
+mo,cv,rS='',dx=[],dk=[],dt=[[],[]],pA,pg,pB,pL,pU,pY,cB=cC(),C=cB.getContext('2d'),rO,t0=Tt=vX=aU=pT=mP=eB=rH=bt=ZW=zT=gp=fx=ad=gL=vR=dB=cW=nW=gT=0,xZ=1,mZ,qD=new T3(6),kY=[],jA,jB,Ub=n5(4096),bN,U2,l0,l1,b2,yU,c2,c3,lS,g0=[0,0],oW,oZ,oX,oY,z1,z2,z3,r2,
+A=n5(64),I=new T3(A.buffer),Q=sA(A,48,64),Tb=new T3(6),fr=n5(108),
+zR=()=>(I[14]=Tt*900|0,A[1]=1/Tt,A[0]=gT=0,uc(),rD()),
 uh=[],
-bA,tf,mH=new MessageChannel,qR=0,dY=u=>(fx&&(gW.deleteSync(fx),fx=0),u),g3=u=>r2.getInt32(u,!0),
-qS=()=>{fx&&gW.clientWaitSync(fx,1,0)==37147?mH.port2.postMessage(0):qR()},qP=u=>{mH.port1.onmessage=()=>qS(),qR=u,qS()},
-iP=()=>(pA=cP(v3+`flat out int a_;M{q u=U_[0];int pk=0,u_=int(u.y)+l;n w0=W(q(u_%${sr/20})/${sr/20}.).x;q w1=q(1.-u.z,1.,1.-u.z,1.-u.z)*W(n(u_%${sr/100})*q(187.,192.,197.,182.)/${sr/100}.)`+vC('for(r_=0;r_<2;r_++){')+
+bA,tf,mH=new MessageChannel,qR=0,dY=u=>(fx&&(G.deleteSync(fx),fx=0),u),g3=u=>r2.getInt32(u,!0),
+qS=()=>{fx&&G.clientWaitSync(fx,1,0)==37147?mH.port2.postMessage(0):qR()},qP=u=>{mH.port1.onmessage=()=>qS(),qR=u,qS()},
+iP=()=>(pA=cP(`flat out int a_;M{q u=U_[0];int pk=0,u_=int(u.y)+l;n w0=W(q(u_%2205)/2205.).x;q w1=(1.-u.z*q(1,0,1,1))*W(n(u_%441)*q(187,192,197,182)/441.)`+vC('for(r_=0;r_<2;r_++){')+
 `n pE=.5+.5*w0*n(1-r_*2);q sg=q(S.xyz*${a},pE*${am})*w1;`+
-`pk|=(int(round(clamp(dot(sg,q(1.)),-1.,1.)*32767.))&65535)<<r_*16;}a_=pk;}`,0,1),
-bD(wT,bA=cF()),gW.bufferData(wT,B2,wD),
-gW.bindTransformFeedback(36386,tf=gW.createTransformFeedback()),
+`pk|=(int(round(C(dot(sg,q(1.)),-1.,1.)*32767.))&65535)<<r_*16;}a_=pk;}`,0,1),
+bD(wT,bA=cF()),G.bufferData(wT,B2,wD),
+G.bindTransformFeedback(36386,tf=G.createTransformFeedback()),
 U2=gu(pA,0)),
-bX=u=>(gW.beginTransformFeedback(0),dW(0,u),gW.endTransformFeedback()),
-gG=(u,v,w,x)=>{(v=_U[14])&&(x=(v*16+B2-1)&~(B2-1),w=(!Q[1]&x!=dB)*x,bB(0,dt[0][u]||=cF(),w,Q[1]*16),bB(1,dt[0][u+2]||=cF(),w,Q[1]*16),Q[0]=u,s4(c2,0),bX(mi(B2>>4,v-Q[1])),w&&u&&(dB=w))},lK=lp(gG),
-xF=async u=>(tX(),gW.enable(wR),u?(bB(0,bA,0,0),bX(u)):lK(0,2),uB(1),uB(0),gW.disable(wR),fx=gW.fenceSync(37143,0),await nP(qP),dY(fx)),
-eC=async(u,v,w)=>(yP(pA),Q[1]=v,Q[2]=mV,Q[3]=sL-1,s4(U2,0),(await xF(u))&&(bD(wT,bA),gW.getBufferSubData(wT,0,w,v,u))),
+bX=u=>(G.beginTransformFeedback(0),dW(0,u),G.endTransformFeedback()),
+gG=(u,v,w,x)=>{(v=I[14])&&(x=(v*16+B2-1)&~(B2-1),w=(!Q[1]&x!=dB)*x,bB(0,dt[0][u]||=cF(),w,Q[1]*16),bB(1,dt[0][u+2]||=cF(),w,Q[1]*16),Q[0]=u,s4(c2,0),bX(mi(B2>>4,v-Q[1])),w&&u&&(dB=w))},lK=lp(gG),
+xF=async u=>(G.enable(wR),u?(bB(0,bA,0,0),bX(u)):lK(0,2),uB(1),uB(0),G.disable(wR),fx=G.fenceSync(37143,0),await nP(qP),dY(fx)),
+eC=async(u,v,w)=>(yP(pA),Q[1]=v,Q[2]=mV,Q[3]=sL-1,s4(U2,0),(await xF(u))&&(bD(wT,bA),G.getBufferSubData(wT,0,w,v,u))),
 cq=y=>{cM(),ZW&&(ZW.remove(),ZW=zT=0),vM($b),sK(1),y==$c&&ud()},
 sH=()=>{ZW&&(cT(bt),sK(1),bt=tm(()=>ZW&&sK(0),3e3))},
-rP=()=>{ZW&&(pY||(pY=cP(`out v2 p;M{g=q(p=v2(l&1,l>>1)*4.-1.,0,1);}`,`in v2 p;M{n r=length(p),a=atan(p.y,p.x);f=q(cos(a*9.+r*24.-U_[0].x*tp+vec3(0,2,4))*.5+.5,1);}`),yU=gu(pY,0)),yP(pY),(Q[0]=pN(t0)*.001,s4(yU,0)),vs(0,0,qD[0],qD[1]),dW(4,3),rH=tm(rP,16))},
-oE=(u,v,w,x)=>{ZW&&cq(0),cM(),cB.width=0,vM($n),sK(0),w=mD(px+tL+B_+hc+zi+'15;'+bT+bF),x=mD(cH),zT=v,ZW=w,mX(x,()=>cq(u)),ap(e,ap(w,x)),v?rD():rP()},
+rP=()=>{ZW&&(pY||(pY=cP(`out v2 p;M{G(p=v2(l&1,l>>1)*4.-1.)`,`in v2 p;M{n r=length(p),a=atan(p.y,p.x);f=q(cos(a*9.+r*24.-U_[0].x*tp+vec3(0,2,4))*.5+.5,1);}`),yU=gu(pY,0)),yP(pY),(Q[0]=pN(t0)*.001,s4(yU,0)),vs(0,0,qD[0],qD[1],0),dW(4,3),rH=tm(rP,16))},
+oE=(u,v,w,x)=>{ZW&&cq(0),cM(),cB.width=0,vM($n),sK(0),w=D(px+tL+B_+hc+zi+'15;'+bT+bF),x=D(cH),zT=v,ZW=w,mX(x,()=>cq(u)),ap(e,ap(w,x)),v?rD():rP()},
 su=u=>(rO&&URL.revokeObjectURL(rO),au.src=rO=u),
 eA=async(v,x,y,z)=>{if(Tt<=0||sL<=1)throw'A';y=dY(++$c),await wI(),c$(y),T$(),!pA&&iP(),v=Tt*sr|0,wH[1]=(wH[10]=v*4)+36,x=new T3(v);for(z=0;z<v;z+=M2)uP(z*100/v|0,'Génération XFB'),await eC(mi(M2,v-z),z,x),c$(y);su(uL(new Blob([wH,x],tW))),rB(pN(t0))},
-j0=u=>{u<2&&dx[u]?.[_L]!=_U[14]*4&&(dx[u]=n5(_U[14]*4)),dk[u]?.[_L]!=_U[14]&&(dk[u]=n5(_U[14]))},
-gZ=(u,w)=>{w=tp*fc[u]/_m[0],_A[36+u]=cs(w),_A[39+u]=sn(w),_A[20+u]=2*_A[36+u]},lH=lp(gZ),lj=lp(j0),
-uT=u=>{dx[u]&&(bD(wB,dt[1][u]||=cF()),gW.bufferData(wB,dx[u],wD))},lU=lp(uT),
-j6=(u,v)=>{(v=dt[vX][u&1])&&Z_>1&&(bD(wB,v),vA(0,4,V_*16),sqf(b2,4,Z_-1,1-u*.5,.5),dA(Z_-1))},
-j8=(u,v,w,y)=>{w=u*3+v,gW.lineWidth(k1),dt[vX][u]&&(bD(wB,dt[vX][u]),vA(0,1,y=V_*16+v*4),vA(1,1,y+sT),sqf(l0,4,ma(1,Z_-2),1-(w+1)/6,1/6),sqf(l1,0,!v*.8,!(v^1)*.8,!(v^2)*.8),Z_>1&&dW(3,Z_-1))},
+j0=u=>{u<2&&dx[u]?.[_L]!=I[14]*4&&(dx[u]=n5(I[14]*4)),dk[u]?.[_L]!=I[14]&&(dk[u]=n5(I[14]))},
+gZ=(u,w)=>{w=tp*fc[u]/A[2],A[36+u]=cs(w),A[39+u]=sn(w),A[20+u]=2*A[36+u]},lH=lp(gZ),lj=lp(j0),
+uT=u=>{dx[u]&&(bD(wB,dt[1][u]||=cF()),G.bufferData(wB,dx[u],wD))},lU=lp(uT),
+j6=(u,v)=>{(v=dt[vX][u&1])&&Z_>1&&(bD(wB,v),vA(0,4,V_*16),q4(b2,4,Z_-1,1-u*.5,.5),dA(Z_-1))},
+j8=(u,v,w,y)=>{w=u*3+v,G.lineWidth(k1),dt[vX][u]&&(bD(wB,dt[vX][u]),vA(0,1,y=V_*16+v*4),vA(1,1,y+sT),q4(l0,4,ma(1,Z_-2),1-(w+1)/6,1/6),q4(l1,0,!v*.8,!(v^1)*.8,!(v^2)*.8),Z_>1&&dW(3,Z_-1))},
 l6=lp(j6),l8=l2(j8),V_=Z_=k1=0,sT=16,
-qf=u=>cx.fillStyle=u,fX=(u,v,w)=>cx.fillText(u,v,w),
-qg=(u,v)=>(v=gr(u),+(v[0]<=uF[0]&&v[0]+v[2]>=0&&v[1]<=uF[1]&&v[1]+v[3]>=0)),
-qt=(u,v)=>(gr(v),fX(u,uM[4],uM[5])),
-qN=(u,v,w)=>ro(u[v]*w),
+qf=u=>C.fillStyle=u,fX=(u,v,w)=>C.fillText(u,v,w),fR=(u,v,w,x)=>C.fillRect(u,v,w,x),
+qg=(u,v)=>(v=gr(u),+(v[0]<=F[0]&&v[0]+v[2]>=0&&v[1]<=F[1]&&v[1]+v[3]>=0)),
+qt=(u,v)=>(gr(v),fX(u,U[4],U[5])),
+qN=(u,v,w)=>ro(u[v]*w*1e3),
 qF=(u,v,w,x)=>(x=ma(0,(-Math.log10(P[v*11+8])+.5|0)-(w>1)*2),(u/1e3).toFixed(x)),
 sN=[n5(8),n5(8)],
-lJ=lp((u,v,w,x)=>{v=_S[x=mU+u*s],w=_S[x+k],x=2+u*2,sN[0][x]=v,sN[0][x+1]=w,sN[1][x]=fd((v+w)/2),sN[1][x+1]=fd(w-v)}),
+lJ=lp((u,v,w,x)=>{v=S[x=mU+u*s],w=S[x+k],x=2+u*2,sN[0][x]=v,sN[0][x+1]=w,sN[1][x]=fd((v+w)/2),sN[1][x+1]=fd(w-v)}),
 gV=(w,x)=>{lJ(0,3),sN[1][0]=fd(((w=sN[0][0]=fd((sN[0][2]+sN[0][4]+sN[0][6])/3))+(x=sN[0][1]=fd((sN[0][3]+sN[0][5]+sN[0][7])/3)))/2),sN[1][1]=fd(x-w)},
 xP=u=>P[u*11+9].includes('%')?100:1,
-au,eb,eg,et,f_=mD(px+'bottom:0;'+lf+'0;'+B_+zi+'20;'),
+au,eb,eg,et,f_=D(px+'bottom:0;'+lf+'0;'+B_+zi+'20;'),
 rB=u=>{eb&&(eB=0,uP(-1,u<0?'⏹ Annulé':u>0?tG+` (${u}ms)`:tG))},
 rE=async u=>(!eB&&(eB=1,uP(-1,'⏳ ...'),t0=pN(0),await u().catch(v=>(dY(),v!='A'&&(W(et,'⏹ '+v),eB=0))))),
 uP=(u,v)=>{eg.style.width=ma(0,u)+'%',W(et,u<0?v:`⏳ ${u}% - ${v}`)},
 T$=()=>(
-Q[8]=1e9,Q[10]=-1e9,Tt=mP=0,lB(0,sL,0,6),Q[9]=Q[10]-Q[8]||(Q[8]-=1,2),_U[14]=(pT=Tt)*900|0,
-gp||(gp=tO(),txS=tO()),fT(0,txS,_S),pn(mP|0),fT(-1,gp,nT)),
+Q[8]=1e9,Q[10]=-1e9,Tt=mP=0,lB(0,sL,0,6),Q[9]=Q[10]-Q[8]||(Q[8]-=1,2),I[14]=(pT=Tt)*900|0,
+gp||(gp=1,tO(-1,2)),fT(0,S),pn(mP|0),fT(-1,nT)),
 ti=(u,v)=>(v=u/60|0,v+':'+('0'+(u-v*60)).slice(-2)),wI=()=>nP(u=>tm(u,0)),
 iH=()=>{
-bV(vR=cV()),eV(0),pg=cP(v3+`out q a_,b_;M{q u=U_[0];r_=int(u.x);int u_=(int(u.y)+l)*49`+vC('')+
+bV(vR=cV()),eV(0),pg=cP(`out q a_,b_;M{q u=U_[0];r_=int(u.x);int u_=(int(u.y)+l)*49`+vC('')+
 `q d_=sign(TB(4))*pow(abs(TB(4))/max(abs(TB(3)),1e-5),1./TB(5))*TB(3),Fr=TB(1)+D(Ec(k,2),Ec(k+1,2),d)+d_*.5*W(o+.25);`+
 `n m=max(S.x,max(S.y,S.z))*.5;a_=q(S.xyz,m);b_=(Fr-U_[1].x)/U_[1].y;}`,0,2),
 c2=gu(pg,0),c3=gu(pg,1),
-pL=cP('layout(location=1)in n w;in n v;out n a;M{g=q(v2(l,v)*v2(2./U_[0].x,U_[0].z)+v2(-1.,U_[0].y),0,1);a=min(1.,3.*inversesqrt(1.+abs(w-v)*U_[0].w));}','in n a;M{f=q(U_[1].rgb,a);}'),
+pL=cP('layout(location=1)in n w;in n v;out n a;M{a=min(1.,3.*inversesqrt(1.+abs(w-v)*U_[0].w));G(v2(l,v)*v2(2./U_[0].x,U_[0].z)+v2(-1.,U_[0].y))','in n a;M{f=q(U_[1].rgb,a);}'),
 l0=gu(pL,0),l1=gu(pL,1),
-pB=cP('in q v;out q c;M{g=q(v2(s+(l>>1),l&1)*v2(2./U_[0].x,-U_[0].z)+v2(-1.,U_[0].y),0,1);c=q(1.-v.w+v.xyz*.5,1);}','in q c;M{f=c;}'),
+pB=cP('in q v;out q c;M{c=q(1.-v.w+v.xyz*.5,1);G(v2(s+(l>>1),l&1)*v2(2./U_[0].x,-U_[0].z)+v2(-1.,U_[0].y))','in q c;M{f=c;}'),
 b2=gu(pB,0),
-pU=cP('uniform sampler2D B_;out n v,z,Z;M{q b=E_(B_,s),B=E_(B_,min(s+1,int(U_[0].z)-1));v=n(l>>1);z=b.z;Z=B.z;g=q(n(l&1)*2.-1.,1.-(b.x+v*b.y-U_[0].y)/U_[0].x*2.,0,1);}','in n v,z,Z;vec3 hr(n h){rr clamp(abs(mod(h*6.+vec3(0,4,2),6.)-3.)-1.,0.,1.);}M{f=q(hr(clamp(mix(z,Z,v)*16.5,0.,330.)/360.),1.);}'),
-uI(pU,'B_',2),lS=gu(pU,0),tB=tO(),
-bV(),gW.clearColor(1,1,1,1),gW.enable(3089),gW.enable(3042),gW.blendFunc(770,771)};
-ev('lost',u=>(eP(u),dY(),gp=txS=vR=pA=bA=tf=gL=pY=tB=dB=dt[0][_L]=dt[1][_L]=0));ev('restored',()=>(T$(),iH(),lU(0,2),mo&&J()));
-rG=u=>{u=+!!qD[3]*(qD[5]+qD[3]),vR&&(vs(0,0,qD[0],qD[1]),gW.scissor(0,u,qD[0],qD[1]-u),gW.clear(K4),yP(pU),sqf(lS,4,qD[1],uF[3]*dP,sL),!ZW&&gL!=$L&&(lC(0,sL),fT(1,tB,Ub),gL=$L),ZW||dA(sL))};
-dr=(u,v,w,x)=>{v=qD[!u*2],w=qD[u?1:3],v&&w&&(!vR&&iH(),bV(vR),gp&&tX(),vs(!u*qD[4],!u*qD[5],v,w),gW.clear(K4),k1=ma(1,mi(qD[0],qD[1])*(u?.006:.001)|0),Q[1]=u?vZ[0]:0,Q[2]=u?vZ[1]:1,x=_U[14],sT=(u?1:mi(15,(x>>18)+1))<<4,Z_=(mi(x,((Q[1]+Q[2])*x)|0)-(V_=(Q[1]*x)|0))/(sT>>4)|0,Q[7]=Z_*w/(v*6),yP(pB),vD(1),l6(0,4>>vX),vD(0),yP(pL),eV(1),l8(0,4>>vX,0,3),gW.disableVertexAttribArray(1),bV(),bD(wB,null))},rD=()=>{rG(),cv&&dr(0),ZW&&dr(1)};
-Z4=(u,v,w,x,y,z)=>{qa(3*w),qf('#fffc'),cx.fillRect(0,v-4*w,u,4*w),qf(cb),cx.textAlign='left',z=v-2*w,y&&fX(y,w,z),cx.textAlign='right',x&&fX(x,u-w,z)};
-Zu=(x,u,v)=>(u=z1+x*s,v=qF(qN(_S,u,z2*1e3),z3,z2),uh[x]=_S[u]==_S[u+k]?v:v+' '+qF(qN(_S,u+k,z2*1e3),z3,z2)),l3=lp(Zu);
-zU=0,zO=0,tl=[],zf=u=>fX(tl[u],uM[4],uM[5]+zO+u*2.4*zU),lQ=lp(zf);
+pU=cP('uniform sampler2D B_;out n v,z,Z;M{q b=E_(B_,s),B=E_(B_,min(s+1,int(U_[0].z)-1));v=n(l>>1);z=b.z;Z=B.z;G(v2(n(l&1)*2.-1.,1.-(b.x+v*b.y-U_[0].y)/U_[0].x*2.))','in n v,z,Z;vec3 hr(n h){rr C(abs(mod(h*6.+vec3(0,4,2),6.)-3.)-1.,0.,1.);}M{f=q(hr(C(mix(z,Z,v)*16.5,0.,330.)/360.),1.);}'),
+uI(pU,'B_',2),lS=gu(pU,0),
+bV(),G.clearColor(1,1,1,1),G.enable(3089),G.enable(3042),G.blendFunc(770,771)};
+ev('lost',u=>(eP(u),dY(),gp=vR=pA=bA=tf=gL=pY=dB=dt[0][_L]=dt[1][_L]=0));ev('restored',()=>(T$(),iH(),lU(0,2),mo&&J()));
+rG=u=>{u=+!!qD[3]*(qD[5]+qD[3]),vR&&(vs(0,0,qD[0],qD[1],u),G.clear(K4),yP(pU),q4(lS,4,qD[1],F[3]*dP,sL),gL!=$L&&(lC(0,sL),fT(1,Ub),gL=$L),dA(sL))};
+dr=(u,v,w,x)=>{v=qD[!u*2],w=qD[u?1:3],v&&w&&(!vR&&iH(),bV(vR),vs(!u*qD[4],!u*qD[5],v,w,0),G.clear(K4),k1=ma(1,mi(qD[0],qD[1])*(u?.006:.001)|0),Q[1]=u?A[0]:0,Q[2]=u?A[1]:1,x=I[14],sT=(u?1:mi(15,(x>>18)+1))<<4,Z_=(mi(x,((Q[1]+Q[2])*x)|0)-(V_=(Q[1]*x)|0))/(sT>>4)|0,Q[7]=Z_*w/(v*6),yP(pB),vD(1),l6(0,4>>vX),vD(0),yP(pL),eV(1),l8(0,4>>vX,0,3),G.disableVertexAttribArray(1),bV(),bD(wB,null))},rD=()=>ZW?dr(1):(rG(),cv&&dr(0));
+Z4=(u,v,w,x,y,z)=>{qa(3*w),qf('#fffc'),fR(0,v-4*w,u,4*w),qf(cb),C.textAlign='left',z=v-2*w,y&&fX(y,w,z),C.textAlign='right',x&&fX(x,u-w,z)};
+Zu=(x,u,v)=>(u=z1+x*s,v=qF(qN(S,u,z2),z3,z2),uh[x]=S[u]==S[u+k]?v:v+' '+qF(qN(S,u+k,z2),z3,z2)),l3=lp(Zu);
+zU=0,zO=0,tl=[],zf=u=>fX(tl[u],U[4],U[5]+zO+u*2.4*zU),lQ=lp(zf);
 ZF=(u,v,w,x)=>{tl=v,zU=u,zO=w||-(x-1)*1.2*u,lQ(0,x)};
 ZD=(u,v,w)=>{qa(2*v),z1=w+u,z2=xP(u),z3=u,l3(0,w=pK(u)?3:1),ZF(v,uh,0,w>1&&uh[0]==uh[1]&&uh[1]==uh[2]?1:w)};
-zh=[],zn=[],zN=(v,u)=>{(u=zn[v])&&(cx.globalAlpha=+u.style.opacity||1,qt(u.textContent,u),cx.globalAlpha=1)},lN=lp(zN),
-zA=(v,u,w)=>{(u=zh[v])&&qg(u)&&(w=uF[2],zB(),v<14?(qa(5*w),fX(EM[v],uM[4],uM[5]-2*w),qa(2*w),ZF(w,P[v*11+9].split('\n'),2*w,2)):ZL(w,u))},lA=lp(zA),
+zh=[],zn=[],zN=(v,u)=>{(u=zn[v])&&(C.globalAlpha=+u.style.opacity||1,qt(u[tC],u),C.globalAlpha=1)},lN=lp(zN),
+zA=(v,u,w)=>{(u=zh[v])&&qg(u)&&(w=F[2],zB(),v<14?(qa(5*w),fX(EM[v],U[4],U[5]-2*w),qa(2*w),ZF(w,P[v*11+9].split('\n'),2*w,2)):ZL(w,u))},lA=lp(zA),
 ZL=(u,v)=>{qa(5*u),zn=cN(v),lN(0,zn[_L])};
-zB=()=>{qf(ct),cx.beginPath(),cx.roundRect(uM[0],uM[1],uM[2],uM[3],uF[2]),cx.fill(),qf(c0)};
-rI=0,cE=(u,v,x,y)=>{(x=E[u])&&(!v&&(rI=qg(x),r2=cN(cN(x)[0])),rI&&qg(y=r2[v])&&(zB(),v<14?ZD(v,uF[2],u*b):ZL(uF[2],y)))},lZ=l2(cE);
+zB=()=>{qf(ct),C.beginPath(),C.roundRect(U[0],U[1],U[2],U[3],F[2]),C.fill(),qf(c0)};
+rI=0,cE=(u,v,x,y)=>{(x=E[u])&&(!v&&(rI=qg(x),r2=cN(cN(x)[0])),rI&&qg(y=r2[v])&&(zB(),v<14?ZD(v,F[2],u*b):ZL(F[2],y)))},lZ=l2(cE);
 gw=0,zg=v=>gw.addColorStop(v/3,cG[v]),lG=lp(zg);
-ZG=v=>{(g1[v*2]!=uM[1]||g1[v*2+1]!=uM[3]||!g0[v])&&(g1[v*2]=uM[1],g1[v*2+1]!=uM[3],gw=g0[v]=cx.createLinearGradient(uM[0],uM[1],uM[0]+uM[2],uM[1]+uM[3]),lG(0,4)),cx.fillStyle=g0[v],cx.fillRect(uM[0],uM[1],uM[2],uM[3])};
-uC=(u,w,x,y)=>{(cB.width!=(x=uD(u))|cB.height!=(y=uD(w)))&&(cB.width=x,cB.height=y,cB.style.cssText=px+tL+zi+'-1;'+pe+wd+u+'px;'+hg+w+'px;',cx.scale(dP,dP)),cx.clearRect(0,0,u,w)};
-uc=(u,v,w,z,x)=>{ZW||((u=eW())&&(v=eH())&&(w=ma(1,v-f_.offsetHeight),z=mi(u,v)/100,uC(u,w),cx.textAlign="center",cx.textBaseline="middle",uF[0]=u,uF[1]=w,uF[2]=z,uF[3]=N[0].scrollTop,lZ(0,sL,0,15),(x=N[2])&&qg(x)&&(ZG(0),zh=cN(x),lA(0,15)),(x=N[3])&&qg(x)&&(ZG(1),qa(5*z),qf(c0),qt(x.firstChild.textContent,x.firstChild),zn=cN(x.lastChild),lN(0,zn[_L])),Z4(u,w,z,gT||ti(Tt|0),rS),rG()))};
+ZG=v=>{(A[v+4]!=U[1]||A[v+6]!=U[3]||!g0[v])&&(A[v+4]=U[1],A[v+6]=U[3],gw=g0[v]=C.createLinearGradient(U[0],U[1],U[0]+U[2],U[1]+U[3]),lG(0,4)),qf(g0[v]),fR(U[0],U[1],U[2],U[3])};
+uC=(u,w,x,y)=>{(cB.width!=(x=uD(u))|cB.height!=(y=uD(w)))&&(cB.width=x,cB.height=y,sC(cB,px+tL+zi+'-1;'+pe+wd+u+'px;'+hg+w+'px;'),C.scale(dP,dP)),C.clearRect(0,0,u,w)};
+uc=(u,v,w,z,x)=>{ZW||((u=eW())&&(v=eH())&&(w=ma(1,v-f_.offsetHeight),z=mi(u,v)/100,uC(u,w),C.textAlign="center",C.textBaseline="middle",F[0]=u,F[1]=w,F[2]=z,F[3]=N[0].scrollTop,lZ(0,sL,0,15),(x=N[2])&&qg(x)&&(ZG(0),zh=cN(x),lA(0,15)),(x=N[3])&&qg(x)&&(ZG(1),qf(c0),ZL(z,x.lastChild),qt(x.firstChild[tC],x.firstChild)),Z4(u,w,z,gT||ti(Tt|0),rS),rG()))};
 hx=(u,v)=>(v=cN(E[u]),sD(v[1]),sD(v[2])),lx=lp(hx),hS=()=>($L++,sD(mZ),lx(0,sL));
-lpA=lp(()=>E.pop().remove()),lpB=lp(u=>ap(N[1],E[u]=L(u))),
-At=()=>{++$L,lpA(sL,E[_L]),lpB(E[_L],sL),mZ.offsetWidth&&(pI>=sL?sD(mZ):bU()),T$(),J()};
-zC=u=>(vZ[0]=kk(u*1e6|0,0,(1-vZ[1])*1e6|0)/1e6,rD()),
-um=(u,v)=>zT&&(v=u.touches?u.touches[0]:u,zC(v.clientX/eW()-vZ[1]/2)),
-hw=u=>zT&&(eP(u),zC(vZ[0]+u.deltaY*vZ[1]*.001));
+lO=lp(()=>E.pop().remove()),lV=lp(u=>ap(N[1],E[u]=L(u))),
+At=()=>{++$L,lO(sL,E[_L]),lV(E[_L],sL),mZ.offsetWidth&&(pI>=sL?sD(mZ):bU()),T$(),J()};
+zC=u=>(A[0]=kk(u*1e6|0,0,(1-A[1])*1e6|0)/1e6,rD()),
+um=(u,v)=>zT&&(v=u.touches?u.touches[0]:u,zC(v.clientX/eW()-A[1]/2)),
+hw=u=>zT&&(eP(u),zC(A[0]+u.deltaY*A[1]*.001));
 J=async(u,v,z)=>{
-u=dY(++$c),vX=gT=0,rB(0),!mo&&(mo=mD(pr+B_+hg+'25vh;'),
-cv=mD(cH),ap(mo,cv),uS(),RO.observe(cv),e_(cv,()=>mZ.offsetWidth?0:ZW||oE($c,1)),
-onmousemove=ontouchmove=um,onwheel=hw);vZ[1]=1/Tt,vZ[0]=0,t0=pN(0),uc();
-for(v=_U[14],z=0;z<v;z+=B2>>4){await wI();if(u!=$c||(!vR&&iH(),yP(pg),Q[1]=z,Q[3]=sL-1,s4(c3,8),!(await xF(0))))return}
+u=dY(++$c),vX=gT=0,rB(0),!mo&&(mo=D(pr+B_+hg+'25vh;'),
+cv=D(cH),ap(mo,cv),uS(),RO.observe(cv),e_(cv,()=>mZ.offsetWidth?0:ZW||oE($c,1)),
+onmousemove=ontouchmove=um,onwheel=hw);A[1]=1/Tt,A[0]=0,t0=pN(0),uc();
+for(v=I[14],z=0;z<v;z+=B2>>4){await wI();if(u!=$c||(!vR&&iH(),yP(pg),Q[1]=z,Q[3]=sL-1,s4(c3,8),!(await xF(0))))return}
 u==$c&&(rD(),gT=ti(Tt|0)+` (${pN(t0)}ms)`,uc())};
-cI=(u,v,w,x,y,z)=>(x=pJ*11,z=(v&u&1)*(P[x+1]-P[x]),y=c(),y.type='range',y.min=(z?-z:P[x])*xZ,y.max=(z||P[x+1])*xZ,y.step=P[x+8]*xZ,y.style.cssText='--c:'+(!pK(pJ)||w?cb:cA[u>>1]),y);
-C$=(u,w,x,y,z)=>(z=mD(dg+'grid-template-columns:4vmin 4vmin 10vmin 1fr 4vmin 4vmin;'+ai+B_+G1),ap(y,ap(z,mD(aA[0],S3),mD(aA[1],S3),mD('',S0+tx),u=cI(u,w,x),mD(aA[2],S3),mD(aA[3],S3))),u);
-fW=z=>_S[mU+z*s]=oX,lE=lp(fW),wr=(u,v,w,x,z)=>{!pK(v)?(mU=u+v,lE(0,6)):(z=(x>>1)*s+v+u,v*=11,!w?_S[z+(x&1)*k]=oX:(u=x&1?fd((_S[z]+_S[z+k])/2):oX,w=fd((x&1?oX:_S[z+k]-_S[z])/2),_S[z]=u-w,km(z,v),_S[z+k]=u+w,km(z+k,v)))},
+cI=(u,v,w,x,y,z)=>(x=pJ*11,z=(v&u&1)*(P[x+1]-P[x]),y=c(),y.type='range',y.min=(z?-z:P[x])*xZ,y.max=(z||P[x+1])*xZ,y.step=P[x+8]*xZ,sC(y,'--c:'+(!pK(pJ)||w?cb:cA[u>>1])),y);
+C$=(u,w,x,y,z)=>(z=D(dg+'grid-template-columns:4vmin 4vmin 10vmin 1fr 4vmin 4vmin;'+ai+B_+G1),ap(y,ap(z,D(aA[0],S3),D(aA[1],S3),D('',S0+tx),u=cI(u,w,x),D(aA[2],S3),D(aA[3],S3))),u);
+fW=z=>S[mU+z*s]=oX,lE=lp(fW),wr=(u,v,w,x,z)=>{!pK(v)?(mU=u+v,lE(0,6)):(z=(x>>1)*s+v+u,v*=11,!w?S[z+(x&1)*k]=oX:(u=x&1?fd((S[z]+S[z+k])/2):oX,w=fd((x&1?oX:S[z+k]-S[z])/2),S[z]=u-w,km(z,v),S[z+k]=u+w,km(z+k,v)))},
 wS=(u,v,w,x,z)=>{wr(u,v,w,x),z&&(wr(u,v,w,x+2),wr(u,v,w,x+4))};
 sV=(u,v,w,x)=>{u.value=v*xZ/1e3,W(u.previousElementSibling,(pK(pJ)?"GDPB"[x*2+(w&1)]:EM[pJ])+' '+qF(v*xZ,pJ,xZ))};
-sY=[[],[]],pI=pJ=pG=0,sQ=(u,v)=>sV(sY[u][v],qN(sN[u],v,1e3),v<2?v:v-2,u),ly=l2(sQ),
-qW=(u,v)=>sY[u][v]=C$(v<2?v:v-2,u,+(v<2),v?kY[u]:kY[u]=mD(dg+G1)),lW=l2(qW);
-sU=()=>{mU=pI*b+pJ,!pK(pJ)?sV(sY[0][0],qN(_S,mU,1e3),0,0):(gV(),ly(0,2,0,8))},oR=u=>wS(u*b,pJ,oW,oZ,oY),lT=lp(oR),rN=u=>u(!pG*pI,pG?sL:pI+1);
-oI=(u,v)=>{v=u.target||u;if(v.type!='range')return;let w=+sY[1].includes(v),k=sY[w].indexOf(v),y=+(k<2),z=y?k:k-2,c=u==v||u.type[0]=='c';oX=+v.value/xZ,sV(v,ro(oX*1e3),z,w),oW=w,oZ=z,oY=y,rN(lT),(y||c)&&sU(),gL=0,c&&(T$(),qc(J)),uc()};
-oS=(u,v,w,x,y,z)=>{v=u.target,w=aA.indexOf(v.textContent),w>=0&&(x=v.parentNode.children[3],y=+x.step,z=ro(+x.value/y),u=z-(z/10|0)*10,u<0&&(u+=10),x.value=((w&&w<3)?z+(w>1?1:-1):z+(w?10-u:-(u||10)))*y,oI(x))};
-mZ=e_(mD(s9+b1+c0+';'+bc+dn+'max-height:80vh;'+oA+'box-shadow:0 1vh 3vh #0005;'),oS),mZ.onchange=mZ.oninput=oI;
-bh=bI=0,bj=z=>ap(bh,mD(BT[z],bI)),bk=lp(bj),bP=(u,v,w,x)=>(bh=u,bI=x,bk(v,w),u),
-lpR=lp(y=>(mK!=1||!pG||y&1)&&(mU=y*b,fK(pJ))),
-sJ=u=>{W(u,mg?'P/B':'G/D'),sD(kY[mg^1]),sF(kY[mg],$g)},iE=(u,v,w,x)=>{u=mD(dJ+'padding-bottom:'+v1),v=mD('',S1+IB+fw),w=e_(ap(mD(S4),mD(BT[5],I_),v,mD(EM[pJ],S2)),hE(()=>(mg^=1,sJ(v),sU()))),eG(bP(x=mD(dG+G1),0,5,I_),z=>(mK=z,rN(lpR),sU())),lW(0,2,0,8),sJ(v),ap(mZ,ap(u,w,x),ap(mD(dg+'gap:'+v2),kY[0],kY[1]))},
+sY=[[],[]],pI=pJ=pG=0,sQ=(u,v)=>sV(sY[u][v],qN(sN[u],v,1),v,u),ly=l2(sQ),
+qW=(u,v)=>sY[u][v]=C$(v<2?v:v-2,u,+(v<2),v?kY[u]:kY[u]=D(dg+G1)),lW=l2(qW);
+sU=()=>{mU=pI*b+pJ,!pK(pJ)?sV(sY[0][0],qN(S,mU,1),0,0):(gV(),ly(0,2,0,8))},oR=u=>wS(u*b,pJ,oW,oZ,oY),lT=lp(oR),rN=u=>u(!pG*pI,pG?sL:pI+1);
+oI=(u,v,w,x,y,z)=>(v=u.target||u,v.type=='range'&&(w=+sY[1].includes(v),x=sY[w].indexOf(v),y=+(x<2),z=y?x:x-2,u=u==v||u.type[0]=='c',oX=+v.value/xZ,sV(v,ro(oX*1e3),z,w),oW=w,oZ=z,oY=y,rN(lT),(y||u)&&sU(),gL=0,u&&(T$(),qc(J)),uc()));
+oS=(u,v,w,x,y,z)=>{v=u.target,w=aA.indexOf(v[tC]),w>=0&&(x=v.parentNode.children[3],y=+x.step,z=ro(+x.value/y),u=z-(z/10|0)*10,u<0&&(u+=10),x.value=((w&&w<3)?z+(w>1?1:-1):z+(w?10-u:-(u||10)))*y,oI(x))};
+mZ=e_(D(s9+b1+c0+';'+bc+dn+'max-height:80vh;'+oA+'box-shadow:0 1vh 3vh #0005;'),oS),mZ.onchange=mZ.oninput=oI;
+bh=bI=0,bj=z=>ap(bh,D(BT[z],bI)),bk=lp(bj),bP=(u,v,w,x)=>(bh=u,bI=x,bk(v,w),u),
+lM=lp(y=>(mK!=1||!pG||y&1)&&(mU=y*b,fK(pJ))),
+sJ=u=>{W(u,mg?'P/B':'G/D'),sD(kY[mg^1]),sF(kY[mg],$g)},iE=(u,v,w,x)=>{u=D(dJ+'padding-bottom:'+v1),v=D('',S1+IB+fw),w=e_(ap(D(S4),D(BT[5],I_),v,D(EM[pJ],S2)),hE(()=>(mg^=1,sJ(v),sU()))),eG(bP(x=D(dG+G1),0,5,I_),z=>(mK=z,rN(lM),sU())),lW(0,2,0,8),sJ(v),ap(mZ,ap(u,w,x),ap(D(dg+'gap:'+v2),kY[0],kY[1]))},
 bU=()=>{W(mZ,''),xZ=xP(pJ),!pK(pJ)?sY[0][0]=C$(0,0,0,mZ):iE(),sU()};
-lpG=lp(v=>{let y=mD(oW?sG:S5),w=oZ,x=oW;ap(r2,e_(y,z=>(hS(),pI=w,pJ=v,pG=x,bU(),sF(mZ,$b),z=mZ.offsetWidth,mZ.style.top=kk(gr(y)[1]+uM[3]+5,50,eH()-bN.offsetHeight-mZ.offsetHeight)+'px',mZ.style.left=kk(uM[4]-z/2,0,eW()-z)+'px')))}),
-gP=(u,w,x)=>(r2=u,oZ=w,oW=+!!x,lpG(0,14));
-lpK=lp(y=>(mK!=1||y&1)&&tF(mK,y)),lpI=lp(u=>(R$(u+1),tF(3,u))),
-K=(u,v,w,x)=>(u=mD(dJ+PD+zi+'10;'),v=eG(bP(mD(dG+G1+o0),0,5,I_),z=>(mK=z,lpK(0,sL))),w=mD(pd+vh+S4+'position:sticky;'+to+'0;'+zi+'10;'),x=eG(bP(mD(sG+sM),9,12,I_),z=>z<11?iR((z<10)*sL,0):lpI(0,2)),
-ap(u,mD('🌈SpiraStrober',IB+o0),v),
-gP(w,0,1),
-ap(w,x),N[3]=u,N[2]=w,w);
-lpL=lp(w=>{let u=oZ;ap(r2,eG(bP(mD(sW),0,5,iB(w?cb:'#0b0')+dI+mw+'8.5'+VN+h8),v=>dL(w,v,u)))}),
-L=(u,v,w,z)=>(v=mD(pd+vh+pr),w=mD(S4),z=mD(S5+sM),
-gP(w,u),
-ap(v,ap(w,e_(ap(z,mD(BT[6],IR),mD(BT[7],iB(cb)),mD(BT[8],IR+`opacity:${sL<=1?.3:1};`)),hE(w=>w<8?(hS(),sF(cN(v)[8-w],$g),uc()):sL>1&&(rd(u),At()))))),r2=v,oZ=u,lpL(0,2),
-v);
+lX=lp((v,w,x,y)=>(w=oZ,x=oW,y=D(x?sG:S5),ap(r2,e_(y,z=>(hS(),pI=w,pJ=v,pG=x,bU(),sF(mZ,$b),z=mZ.offsetWidth,mZ.style.top=kk(gr(y)[1]+U[3]+5,50,eH()-bN.offsetHeight-mZ.offsetHeight)+'px',mZ.style.left=kk(U[4]-z/2,0,eW()-z)+'px'))))),
+gP=(u,w,x)=>(r2=u,oZ=w,oW=+!!x,lX(0,14));
+lY=lp(y=>(mK!=1||y&1)&&tF(mK,y)),l5=lp(u=>(R$(u+1),tF(3,u))),
+K=(u,v,w,x)=>(u=D(dJ+PD+zi+'10;'),v=eG(bP(D(dG+G1+o0),0,5,I_),z=>(mK=z,lY(0,sL))),w=D(pd+vh+S4+'position:sticky;'+to+'0;'+zi+'10;'),x=eG(bP(D(sG+sM),9,12,I_),z=>z<11?iR((z<10)*sL,0):l5(0,2)),
+N[3]=ap(u,D('🌈SpiraStrober',IB+o0),v),gP(w,0,1),N[2]=ap(w,x));
+lL=lp((w,u)=>(u=oZ,ap(r2,eG(bP(D(sW),0,5,iB(w?cb:'#0b0')+dI+mw+'8.5'+VN+h8),v=>dL(w,v,u))))),
+L=(u,v,w,z)=>(v=D(pd+vh+pr),w=D(S4),z=D(S5+sM),gP(w,u),
+r2=ap(v,ap(w,e_(ap(z,D(BT[6],IR),D(BT[7],iB(cb)),D(BT[8],IR+`opacity:${sL<=1?.3:1};`)),hE(w=>w<8?(hS(),sF(cN(v)[8-w],$g),uc()):sL>1&&(rd(u),At()))))),oZ=u,lL(0,2),v);
 rT=0,ud=()=>{cT(rT),rT=tm(()=>($L++,rD(),uc()),16)},rZ=()=>(qD[0]=C_.width=uD(eW()),qD[1]=C_.height=uD(eH()),uS(),ud());
-fI=u=>{_A[8]+=fr[u*2],_A[9]+=fr[u*2+1]},lI=lp(fI),
-e4=(u,v,w,x,y,z)=>{!v&&(w=fc[u]*(_U[11]-1)/_m[0],w=tp*(w-(w|0)),csW=cs(w),snW=sn(w)),w=u*4+v*2,x=(u*2+v)*9,y=_A[23+w]-_A[24+w]*_A[36+u],z=_A[24+w]*_A[39+u],fr.copyWithin(x*2,x*2+2,x*2+18),fr[x*2+16]=_A[8]=y*csW+z*snW,fr[x*2+17]=_A[9]=z*csW-y*snW,lI(x,x+8),y=_U[13]-4,y>=0&&y<_U[14]&&(dx[v][w=y*4+u]=z=fd(mi(1,sq(_A[8]**2+_A[9]**2)*_A[45])),u==2&&(dx[v][w+1]=ma(dx[v][w-2],dx[v][w-1],z)*.5),y>2&&z>.15&&(w=(y-2)*4+u,x=dx[v][w],w=dx[v][w+4],w>x&&w>z&&(z=y-1+.5*(z-x)/(2*w-x-z),dk[w=u+v*3][Tb[w]++]=z)))};l4=l2(e4);
-e5=()=>{l4(0,3,0,2),_A.fill(0,23,35),_U[12]=(++_U[13]+1)*_m[0]/900};
-gS=(u,w,x,y)=>{w=23+u*4,_A[w]=oX+(y=_A[20+u])*(x=_A[w])-_A[w+1],_A[w+1]=x,_A[w+2]=oY+y*(x=_A[w+2])-_A[w+3],_A[w+3]=x},
-d7=u=>{oX=jA[u*=_U[10]],oY=jB[u],gS(0),gS(1),gS(2),++_U[11]>=_U[12]&&e5()},
+fI=u=>{A[8]+=fr[u*2],A[9]+=fr[u*2+1]},lI=lp(fI),
+e4=(u,v,w,x,y,z)=>{!v&&(w=fc[u]*(I[11]-1)/A[2],w=tp*(w-(w|0)),cW=cs(w),nW=sn(w)),w=u*4+v*2,x=(u*2+v)*9,y=A[23+w]-A[24+w]*A[36+u],z=A[24+w]*A[39+u],fr.copyWithin(x*2,x*2+2,x*2+18),fr[x*2+16]=A[8]=y*cW+z*nW,fr[x*2+17]=A[9]=z*cW-y*nW,lI(x,x+8),y=I[13]-4,y>=0&&y<I[14]&&(dx[v][w=y*4+u]=z=fd(mi(1,sq(A[8]**2+A[9]**2)*A[45])),u==2&&(dx[v][w+1]=ma(dx[v][w-2],dx[v][w-1],z)*.5),y>2&&z>.15&&(w=(y-2)*4+u,x=dx[v][w],w=dx[v][w+4],w>x&&w>z&&(z=y-1+.5*(z-x)/(2*w-x-z),dk[w=u+v*3][Tb[w]++]=z)))};l4=l2(e4);
+e5=()=>{l4(0,3,0,2),A.fill(0,23,35),I[12]=(++I[13]+1)*A[2]/900};
+gS=(u,w,x,y)=>{w=23+u*4,A[w]=oX+(y=A[20+u])*(x=A[w])-A[w+1],A[w+1]=x,A[w+2]=oY+y*(x=A[w+2])-A[w+3],A[w+3]=x},
+d7=u=>{oX=jA[u*=I[10]],oY=jB[u],gS(0),gS(1),gS(2),++I[11]>=I[12]&&e5()},
 l9=lp(d7),
 dZ=(u,v)=>(v=0,Tb[u]>10&&(ru=dk[u],rw=rx=0,lR(0,Tb[u]-2),rx&&(v=rw/rx)),rS+=(u?'|':'R(%)=')+(v*100|0));lD=lp(dZ);
-wL=async(x,y,z)=>{for(y=0,z=_m[2];y<z;y+=M2)uP(y*100/z|0,'Analyse freq'),await wI(),c$(x),l9(y,mi(z,y+M2));rS='',lD(0,6),lU(0,2),Tt=_m[1],uP(100,'✅ OK'),vX=1,zR(),tm(rB,1e3,pN(t0))};
-dj=u=>(u=_m,u[1]=u[2]/u[0],_U[14]=u[1]*900|0,_U[12]=u[0]/900,_A[45]=200/(u[0]*a),Tb.fill(0),lj(0,6),lH(0,3),_U[13]=_U[11]=0,_A.fill(0,23,35),fr.fill(0));
-lpW=lp(u=>jA[u]=jB[u]/32768),
-Wc=(u,w,x,y,z)=>{for(w=12;w<u.byteLength;w+=8+y+(y&1)){x=g3(w),y=g3(w+4);if(x==wH[3])_U[10]=g3(w+8)>>16,_m[0]=g3(w+12),z=g3(w+20)>>16;else if(x==wH[9]){jB=sA(jA=z==16?(jB=new Ti(u,w+8,y>>=1),jA=n5(y),lpW(0,y),jA):new f5(u,w+8,y/4),_U[10]-1);break}}_m[2]=jA[_L]/_U[10]};
-Mc=async(u,x,y,z,w)=>{uP(0,'Décodage MP3');y=new T8(u),z=(y[0]==73&&y[1]==68&&y[2]==51)?10+((y[6]<<21)|(y[7]<<14)|(y[8]<<7)|y[9]):0;while(z<y[_L]-4&&(y[z]!=255||(y[z+1]&224)!=224))z++;w=z<y[_L]-4?sR[(y[z+2]>>2)&3]||sr:(z=0,sr);ad=ad?.sampleRate==w?ad:new OfflineAudioContext(1,1,w),w=await ad.decodeAudioData(z?u.slice(z):u),c$(x),_U[10]=1,_m[0]=w.sampleRate,_m[2]=w.length,jA=w.getChannelData(0),jB=w.numberOfChannels>1?w.getChannelData(1):jA};
+wL=async(x,y,z)=>{for(y=0,z=A[15];y<z;y+=M2)uP(y*100/z|0,'Analyse freq'),await wI(),c$(x),l9(y,mi(z,y+M2));rS='',lD(0,6),lU(0,2),Tt=A[3],uP(100,'✅ OK'),vX=1,zR(),tm(rB,1e3,pN(t0))};
+dj=u=>(A[3]=A[15]/(u=A[2]),I[14]=A[3]*900|0,I[12]=u/900,A[45]=200/(u*a),Tb.fill(0),lj(0,6),lH(0,3),I[13]=I[11]=0,A.fill(0,23,35),fr.fill(0));
+l7=lp(u=>jA[u]=jB[u]/32768),
+Wc=(u,w,x,y,z)=>{for(w=12;w<u.byteLength;w+=8+y+(y&1)){x=g3(w),y=g3(w+4);if(x==wH[3])I[10]=g3(w+8)>>16,A[2]=g3(w+12),z=g3(w+20)>>16;else if(x==wH[9]){jB=sA(jA=z==16?(jB=new Ti(u,w+8,y>>=1),jA=n5(y),l7(0,y),jA):new f5(u,w+8,y/4),I[10]-1);break}}A[15]=jA[_L]/I[10]};
+Mc=async(u,x,y,z,w)=>{uP(0,'Décodage MP3');y=new T8(u),z=(y[0]==73&&y[1]==68&&y[2]==51)?10+((y[6]<<21)|(y[7]<<14)|(y[8]<<7)|y[9]):0;while(z<y[_L]-4&&(y[z]!=255||(y[z+1]&224)!=224))z++;w=z<y[_L]-4?sR[(y[z+2]>>2)&3]||sr:(z=0,sr);ad=ad?.sampleRate==w?ad:new OfflineAudioContext(1,1,w),w=await ad.decodeAudioData(z?u.slice(z):u),c$(x),I[10]=1,A[2]=w.sampleRate,A[15]=w.length,jA=w.getChannelData(0),jB=w.numberOfChannels>1?w.getChannelData(1):jA};
 dc=async(u,w)=>(w=++$c,r2=new DataView(u),g3(0)==wH[0]&&g3(8)==wH[2]?Wc(u):await Mc(u,w),dj(),wL(w));
 d.onfullscreenchange=onresize=rZ,
-C_.style.cssText=px+tL+zi+'-2;'+pe+B_+'height:100dvh;',ap(N[0],ap(mD(mw+mC+';'+dg),K(),N[1])),
-ap(e,C_,cB,ap(mD(px+tL+B_+'bottom:calc(25vh + 13vmin);'+oH+dg+'grid-template-rows:'+mC+' 1fr;'),N[3],N[0]),f_,mZ),rZ(),N[0].onscroll=uc,lpI(0,61),At();
+sC(C_,px+tL+zi+'-2;'+pe+B_+'height:100dvh;'),ap(N[0],ap(D(mw+mC+';'+dg),K(),N[1])),
+ap(e,C_,cB,ap(D(px+tL+B_+'bottom:calc(25vh + 13vmin);'+oH+dg+'grid-template-rows:'+mC+' 1fr;'),N[3],N[0]),f_,mZ),rZ(),N[0].onscroll=uc,l5(0,61),At();
 onload=(u,w,z)=>{
-u=new CSSStyleSheet,u.replaceSync('*{scrollbar-width:none}::-webkit-scrollbar{'+dn+'}audio{'+B_+H5+'}input{margin:0 '+v1+hg+v1+aN+BR+'}input::-webkit-slider-thumb{'+aN+wd+'3'+VN+hg+'3'+VN+br+'50%;'+cu+bd+$n+'}'),d.adoptedStyleSheets=[u],
-bN=mD(pr+B_+pd+vh+' '+v1+mh+'12'+VN+bg+'#111;'+dg+G1+bT+b1+'#f83;transition:opacity .3s;'),
-w=mD(S4),
-z=c(),
-eb=e_(mD(BR+fz+'3'+VN+cu+H5+pr+oH+dI+co+c0+';'+bg+'#4af;'+mw+'30vw;'),()=>rE(eA)),eg=mD(pa+tL+hc+wd+'0;'+bg+'linear-gradient(90deg,#0f0,#4f4);transition:width .3s;'),et=mD(tG,pr+zi+'1;'+co+c0+';');
+u=new CSSStyleSheet,u.replaceSync('*{scrollbar-width:none}::-webkit-scrollbar{'+dn+'}audio{'+B_+H5+'}input{margin:0 '+v1+hg+v1+aN+BR+'}input::-webkit-slider-thumb{'+aN+wd+v4+hg+v4+br+'50%;'+cu+bd+$n+'}'),d.adoptedStyleSheets=[u],
+bN=D(pr+B_+pd+vh+' '+v1+mh+'12'+VN+bg+'#111;'+dg+G1+bT+b1+'#f83;transition:opacity .3s;'),w=ap(D(S4),D(BT[12],IR+S7)),z=c(),
+eb=e_(D(BR+fz+v4+cu+H5+pr+oH+dI+c1+bg+'#4af;'+mw+'30vw;'),()=>rE(eA)),eg=D(pa+tL+hc+wd+'0;'+bg+'linear-gradient(90deg,#0f0,#4f4);transition:width .3s;'),et=D(tG,pr+zi+'1;'+c1);
 ap(eb,eg,et),au=new Audio,au.controls=1,z.type='file',z.accept='audio/*';
 z.onchange=(u,v)=>(v=u.target.files[0])&&(su(uL(v.slice())),rE(async()=>(await dc(await v.arrayBuffer()),aU=rO)).finally(()=>z.value=''));
-bS=e_(mD('🌈',IB+S7),()=>(mV^=1,W(bS,mV?'🌞':'🌈'),rE(eA))),
-bP(ap(bP(bP(w,12,13,IR+S7),13,15,IB+S7),bS,eb),15,18,S8),
+bS=e_(D('🌈',IB+S7),()=>(mV^=1,W(bS,mV?'🌞':'🌈'),rE(eA))),
+bP(ap(bP(w,13,15,IB+S7),bS,eb),15,18,S8),
 e_(w,hE(async(u,v)=>(
 u==12?(d.fullscreenElement?d.exitFullscreen():e.requestFullscreen()):
-u==13?sp([mD("μ(x,y,z)=x+(y-x).z\nIx=t⋅μ(x,x⁺,t/(2⏳)) Tx=μ(x,x⁺,t/⏳) Dx=(x⁺-x)/⏳\nUx=x/2+½ Mx=⏳.(x⁺+x)/2 Wx=sin(2π.x) J=perlin()\nL[y](x)=μ(Ty,1,x)\nΩ(x,y)=(x%1-y)/(1-y).step(y,x%1) \nP(x,y,z)=Ω(W[x-¼+y.W(x)/2π],z)\nA(x,y)=Ix+Tx+Σ[Mx⁻]",cw+'#f40;'+S0),
-mD("f=(🌊/🌀)^(1/💎)/2π\nd=(T🌊/T🌀)^(1/T💎)⋅T🌀\no=A(f,📌)\nφ=A(🔔,🚩)+T💫.J+T🌀/2⋅Wo",cw+'#0f4;'+S0),
-mD("S=L[🏮]○U○W○A(✨,📍).L[🔆]○U○P(φ,💠,⚡)\nF=T🔔+D🚩+d/2⋅W[o+¼]",cw+'#f09;'+S0)]):
+u==13?sp([D("μ(x,y,z)=x+(y-x).z\nIx=t⋅μ(x,x⁺,t/(2⏳)) Tx=μ(x,x⁺,t/⏳) Dx=(x⁺-x)/⏳\nUx=x/2+½ Mx=⏳.(x⁺+x)/2 Wx=sin(2π.x) J=perlin()\nL[y](x)=μ(Ty,1,x)\nΩ(x,y)=(x%1-y)/(1-y).step(y,x%1) \nP(x,y,z)=Ω(W[x-¼+y.W(x)/2π],z)\nA(x,y)=Ix+Tx+Σ[Mx⁻]",cw+'#f40;'+S0),
+D("f=(🌊/🌀)^(1/💎)/2π\nd=(T🌊/T🌀)^(1/T💎)⋅T🌀\no=A(f,📌)\nφ=A(🔔,🚩)+T💫.J+T🌀/2⋅Wo",cw+'#0f4;'+S0),
+D("S=L[🏮]○U○W○A(✨,📍).L[🔆]○U○P(φ,💠,⚡)\nF=T🔔+D🚩+d/2⋅W[o+¼]",cw+'#f09;'+S0)]):
 u==14?(ZW?cq($c):(t0=pN(0),oE(++$c,0))):
 u==15?(cq(dY(++$c)),rB(-1),su('')):
 u==16?z.click():
-u==17&&(v=au.src)&&(v==aU?(vX^=1,Tt=vX?_m[1]:pT,zR()):rE(async()=>(await dc(await(await fetch(v)).arrayBuffer()),aU=v)))
+u==17&&(v=au.src)&&(v==aU?(vX^=1,Tt=vX?A[3]:pT,zR()):rE(async()=>(await dc(await(await fetch(v)).arrayBuffer()),aU=v)))
 )));
 ap(f_,mo,ap(bN,w,au)),onpointerdown=onpointermove=sH,
 onclick=(u,v)=>{for(v=u.target;v&&v!=d;v=v.parentNode)if(v._&&v._(u)!==0)return;hS()},rZ()};
