@@ -2,7 +2,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1"><script>
 // MIT License © 2025-2026 Syluminose
 let P=[1,300,10,10,0,0,0,0,1,'Durée\n(s)',0,0,100,8,18,0,0,0,0,.1,'Freq\n(Hz)',1,-.5,.5,0,0,0,0,0,.5,.01,'ΔΦ\n(Cy)',1,.6,50,1,5,0,0,0,0,.01,'Dev PM\n(Cy)',1,0,50,0,16,0,0,0,0,.1,'Dev 𝛼-PM\n(Cy/sᵅ)',1,1,5,1,1,0,0,0,0,.01,'FO 𝛼-PM\n(-)',1,-.5,.5,0,0,0,0,0,0,.01,'ΔΦ 𝛼-PM\n(Cy)',1,0,1,.8,.8,0,0,0,0,.001,'Amb AM\n(%)',1,0,1,.05,.2,0,0,0,0,.01,'Fₘ AM\n(Hz)',1,-.5,.5,0,0,.16,.33,0,0,.01,'ΔΦ AM\n(Cy)',1,0,.5,.5,.5,0,0,0,0,.01,'Skew\n(-)',1,0,.5,.5,.5,0,0,0,0,.01,'Shape\n(%)',1,0,1,.05,.05,-.05,-.05,0,0,.001,'Amb\n(%)',1,.2,.5,.2,.2,0,0,0,0,.001,'Jitter\n(%)',0],$n='none',$b='block',$g='grid',rc=u=>crypto.getRandomValues(u),
-a=.125,am=a/4,d=document,ce=u=>()=>d.createElement(u),cD=ce('div'),c=ce('input'),cC=ce('canvas'),
+a=.125,am=a/4,d=document,ce=u=>d.createElement(u),
 e=d.documentElement,eW=()=>e.clientWidth,eH=()=>e.clientHeight,s=18,b=s*6,k=s*3,sL=0,E=[],ct='#fffd',mg=1,$c=$L=0,f5=Float32Array,
 _L='length',tC='textContent',M2=1<<20,B2=1<<22,K4=16384,c$=u=>{if(u!=$c)throw'A'},{max:ma,min:mi,sin:sn,cos:cs,abs:ab,sign:sg,PI:pi,sqrt:sq,fround:fd,round:ro,clz32:cz}=Math,
 T8=Uint8Array,Ti=Int16Array,T3=Uint32Array,cr=new T3(1),xR=new T3(K4),rn=()=>rc(cr)[0]/2**32,
@@ -13,7 +13,7 @@ W=(u,v)=>u[tC]=v,sC=(u,v)=>u.style.cssText=v,cK=(u,v,w)=>S.copyWithin(u,v,w),cM=
 [bg,zi,co,bd,br,wd,hg,mw,mh,to,lf,rg,pd,ai,tx,pe,fw,fz,cu,cw,dg,cn,pa,pr,px,dn,hc,o0,aN,oA]=
 "background:|z-index:|color:|border:|border-radius:|width:|height:|min-width:|min-height:|top:|left:|right:|padding:|align-items:center;|text-align:center;|pointer-events:none;|font-weight:bold;|font-size:|cursor:pointer;|white-space:pre;color:|display:grid;|place-items:center;|position:absolute;|position:relative;|position:fixed;|display:none;|height:100%;|opacity:0;|appearance:none;background:var(--c);|overflow-y:auto;".split('|'),
 cT=clearTimeout,pN=u=>performance.now()-u|0,tm=setTimeout,nP=u=>new Promise(u),
-dP=devicePixelRatio,uD=u=>u*dP|0,eP=u=>u.preventDefault(),D=(u,v,w)=>(w=cD(),v&&W(w,u),sC(w,v||u),w),sF=(u,v)=>u.style.display=v,sD=u=>sF(u,$n),
+dP=devicePixelRatio,uD=u=>u*dP|0,eP=u=>u.preventDefault(),D=(u,v,w)=>(w=ce('div'),v&&W(w,u),sC(w,v||u),w),sF=(u,v)=>u.style.display=v,sD=u=>sF(u,$n),
 sK=(u,v)=>{v=bN.style,v.opacity=u=eB||u,ZW&&u&&!eB?tm(()=>ZW&&+v.opacity&&(v.pointerEvents='auto'),1e3):v.pointerEvents=u?'auto':$n},uL=u=>URL.createObjectURL(u),cN=u=>u.childNodes,
 lp=z=>(u,v)=>{for(;u<v;u++)z(u)},l2=z=>(u,v,w,x)=>{for(;u<v;u++)for(let y=w;y<x;y++)z(u,y)},
 ap=(u,...v)=>(u.append(...v),u),ev=(u,v)=>C_.addEventListener('webglcontext'+u,v),
@@ -35,13 +35,12 @@ v3=`uniform sampler2D N_,S_;`+
 `q D(q x,q y,n z){rr(y-x)/z;}q U(q x){rr x*.5+.5;}q W(q x){rr sin(tp*fract(x));}`+
 `q P(q x,q w,q y){q z=fract(x),u=(z-y)/max(1.-y,1e-5)*step(y,z);rr W(u-.25+w*W(u)/tp);}`+
 `q G_(ivec4 k,int O){ivec4 j=(k+O)&((textureSize(N_,0).y<<8)-1);rr q(E_(N_,j.x).x,E_(N_,j.y).x,E_(N_,j.z).x,E_(N_,j.w).x);}`+
-`q J(q u){ivec4 k=ivec4(floor(u));q f=fract(u),a=G_(k,-1),b=G_(k,0),c=G_(k,1),d=G_(k,2);rr b+.5*f*(c-a+f*(2.*a-5.*b+4.*c-d+f*(3.*(b-c)+d-a)))-.5;}\n`+
-`#define B_(x) Ec(k,x),Ec(k+1,x)\n#define TB(x) T(B_(x),d)\n#define A_(f,p,x) (I(B_(f))+TB(p)+Ec(k,x))\n`,
-vC=u=>`;int k=0,ds;for(;k<int(u.w);k++){d=V_(k*27).x;ds=int(d*${sr}.);if(u_<ds||k==int(u.w)-1)break;u_-=ds;}t=n(u_)/${sr}.;`+u+`q o=A_(14,6,16),f0=A_(1,2,15),fi=f0+TB(13)*J(f0)+TB(3)*.5*W(o),S=mix(TB(7),q(1.),U(W(A_(8,9,17))))*mix(TB(12),q(1.),U(P(fi,TB(10),TB(11))));`,
-C_=cC(),G=C_.getContext('webgl2',{alpha:!1,antialias:!0,depth:!1,preserveDrawingBuffer:!0}),
-s_=(u,v,w)=>(w=G.createShader(u),G.shaderSource(w,v0+v),G.compileShader(w),w),
-yP=u=>G.useProgram(u),bV=u=>G.bindVertexArray(u),cV=()=>G.createVertexArray(),
-aS=(u,v,w)=>G.attachShader(u,s_(v,w)),
+`q J(q u,ivec4 k){k+=ivec4(floor(u));q f=fract(u),a=G_(k,-1),b=G_(k,0),c=G_(k,1),d=G_(k,2);rr b+.5*f*(c-a+f*(2.*a-5.*b+4.*c-d+f*(3.*(b-c)+d-a)))-.5;}\n`+
+`#define B_(x) Ec(k,x),Ec(k+1,x)\n#define TB(x) T(B_(x),d)\n#define A_(f,p,x) (fract(I(B_(f)))+TB(p)+fract(Ec(k,x)))\n`,
+vC=u=>`;int k=0,ds;for(;k<int(u.w);k++){d=V_(k*27).x;ds=int(d*${sr}.);if(u_<ds||k==int(u.w)-1)break;u_-=ds;}t=n(u_)/${sr}.;`+u+`q o=A_(14,6,16),f0=A_(1,2,15),fi=f0+TB(13)*J(f0,ivec4(I(B_(1)))+ivec4(Ec(k,15)))+TB(3)*.5*W(o),S=mix(TB(7),q(1.),U(W(A_(8,9,17))))*mix(TB(12),q(1.),U(P(fi,TB(10),TB(11))));`,
+C_=ce('canvas'),G=C_.getContext('webgl2',{alpha:!1,antialias:!0,depth:!1,preserveDrawingBuffer:!0}),
+yP=u=>G.useProgram(u),bV=u=>G.bindVertexArray(u),
+aS=(u,v,w,x)=>(x=G.createShader(v),G.shaderSource(x,v0+w),G.compileShader(x),G.attachShader(u,x)),
 gs=(u,v)=>G.getUniformLocation(u,v),gu=(u,v)=>gs(u,`U_[${v}]`),uI=(u,v,w)=>G.uniform1i(gs(u,v),w),
 cP=(u,v,w,x)=>(x=G.createProgram(),aS(x,35633,(w?v3:'')+u),aS(x,35632,w?'M{}':'out q f;'+v),w&&G.transformFeedbackVaryings(x,w>1?['a_','b_']:['a_'],35981),G.linkProgram(x),yP(x),w&&(uI(x,'N_',0),uI(x,'S_',1)),x),
 tP=u=>G.texParameteri(w2,u,9728),tO=lp(u=>(G.activeTexture(w1+u),G.bindTexture(w2,G.createTexture()),tP(10240),tP(10241))),
@@ -74,7 +73,7 @@ M=(u,v,w,x)=>(x=S[u+w]+S[u]*(S[u+v]+S[u+b+v])*.5,S[u+b+w]=w>15?x-((x|0)-(x<0)):x
 tK=(u,v,w,x,y,z)=>{w=u*b+v*s,x=sg(S[w+4])*(ab(S[w+4])/ma(1e-5,ab(S[w+3])))**(1/S[w+5]),S[w+14]=x/tp,x*=S[w+3],v<3&&(Ub[u*4+2]=v?ma(Ub[u*4+2],x):x),y=S[w+1],z=.5+ab(x)/2,Q[8]=mi(Q[8],y-z),Q[10]=ma(Q[10],y+z),u?(w-=b,!v&&(Tt+=S[w]),M(w,14,16),M(w,8,17),mP=ma(mP,M(w,1,15))):S[w+15]=S[w+16]=S[w+17]=0},lB=l2(tK),
 rC=(u,v)=>{(v=E[u])&&(v=gR(v),Ub[u*4]=(v.top+F[3])*dP,Ub[u*4+1]=v.height*dP)},lC=lp(rC),
 rw=rx=0,ru=n5(0),ry=(y,z)=>{(z=(ru[y+2]-ru[y])/2)&&(rw+=ab(ru[y+2]-2*ru[y+1]+ru[y])/z,rx++)},lR=lp(ry),
-mo,cv,rS='',dx=[],dk=[],dt=[[],[]],pA,pg,pB,pL,pU,pY,cB=cC(),C=cB.getContext('2d'),rO,t0=Tt=vX=aU=pT=mP=eB=rH=bt=ZW=zT=gp=fx=ad=gL=vR=dB=cW=nW=gT=0,xZ=1,mZ,qD=new T3(6),kY=[],jA,jB,Ub=n5(4096),bN,U2,l0,l1,b2,yU,c2,c3,lS,g0=[0,0],oW,oZ,oX,oY,z1,z2,z3,r2,
+mo,cv,rS='',dx=[],dk=[],dt=[[],[]],pA,pg,pB,pL,pU,pY,cB=ce('canvas'),C=cB.getContext('2d'),rO,t0=Tt=vX=aU=pT=mP=eB=rH=bt=ZW=zT=gp=fx=ad=gL=vR=dB=cW=nW=gT=0,xZ=1,mZ,qD=new T3(6),kY=[],jA,jB,Ub=n5(4096),bN,U2,l0,l1,b2,yU,c2,c3,lS,g0=[0,0],oW,oZ,oX,oY,z1,z2,z3,r2,
 A=n5(64),I=new T3(A.buffer),Q=sA(A,48,64),Tb=new T3(6),fr=n5(108),
 zR=()=>(I[14]=Tt*900|0,A[1]=1/Tt,A[0]=gT=0,uc(),rD()),
 uh=[],
@@ -120,7 +119,7 @@ Q[8]=1e9,Q[10]=-1e9,Tt=mP=0,lB(0,sL,0,6),Q[9]=Q[10]-Q[8]||(Q[8]-=1,2),I[14]=(pT=
 gp||(gp=1,tO(-1,2)),fT(0,S),pn(mP|0),fT(-1,nT)),
 ti=(u,v)=>(v=u/60|0,v+':'+('0'+(u-v*60)).slice(-2)),wI=()=>nP(u=>tm(u,0)),
 iH=()=>{
-bV(vR=cV()),eV(0),pg=cP(`out q a_,b_;M{q u=U_[0];r_=int(u.x);int u_=(int(u.y)+l)*49`+vC('')+
+bV(vR=G.createVertexArray()),eV(0),pg=cP(`out q a_,b_;M{q u=U_[0];r_=int(u.x);int u_=(int(u.y)+l)*49`+vC('')+
 `q d_=sign(TB(4))*pow(abs(TB(4))/max(abs(TB(3)),1e-5),1./TB(5))*TB(3),Fr=TB(1)+D(Ec(k,2),Ec(k+1,2),d)+d_*.5*W(o+.25);`+
 `n m=max(S.x,max(S.y,S.z))*.5;a_=q(S.xyz,m);b_=(Fr-U_[1].x)/U_[1].y;}`,0,2),
 c2=gu(pg,0),c3=gu(pg,1),
@@ -160,7 +159,7 @@ cv=D(cH),ap(mo,cv),uS(),RO.observe(cv),e_(cv,()=>mZ.offsetWidth?0:ZW||oE($c,1)),
 onmousemove=ontouchmove=um,onwheel=hw);A[1]=1/Tt,A[0]=0,t0=pN(0),uc();
 for(v=I[14],z=0;z<v;z+=B2>>4){await wI();if(u!=$c||(!vR&&iH(),yP(pg),Q[1]=z,Q[3]=sL-1,s4(c3,8),!(await xF(0))))return}
 u==$c&&(rD(),gT=ti(Tt|0)+` (${pN(t0)}ms)`,uc())};
-cI=(u,v,w,x,y,z)=>(x=pJ*11,z=(v&u&1)*(P[x+1]-P[x]),y=c(),y.type='range',y.min=(z?-z:P[x])*xZ,y.max=(z||P[x+1])*xZ,y.step=P[x+8]*xZ,sC(y,'--c:'+(!pK(pJ)||w?cb:cA[u>>1])),y);
+cI=(u,v,w,x,y,z)=>(x=pJ*11,z=(v&u&1)*(P[x+1]-P[x]),y=ce('input'),y.type='range',y.min=(z?-z:P[x])*xZ,y.max=(z||P[x+1])*xZ,y.step=P[x+8]*xZ,sC(y,'--c:'+(!pK(pJ)||w?cb:cA[u>>1])),y);
 C$=(u,w,x,y,z)=>(z=D(dg+'grid-template-columns:4vmin 4vmin 10vmin 1fr 4vmin 4vmin;'+ai+B_+G1),ap(y,ap(z,D(aA[0],S3),D(aA[1],S3),D('',S0+tx),u=cI(u,w,x),D(aA[2],S3),D(aA[3],S3))),u);
 fW=z=>S[mU+z*s]=oX,lE=lp(fW),wr=(u,v,w,x,z)=>{!pK(v)?(mU=u+v,lE(0,6)):(z=(x>>1)*s+v+u,v*=11,!w?S[z+(x&1)*k]=oX:(u=x&1?fd((S[z]+S[z+k])/2):oX,w=fd((x&1?oX:S[z+k]-S[z])/2),S[z]=u-w,km(z,v),S[z+k]=u+w,km(z+k,v)))},
 wS=(u,v,w,x,z)=>{wr(u,v,w,x),z&&(wr(u,v,w,x+2),wr(u,v,w,x+4))};
@@ -191,18 +190,18 @@ gS=(u,w,x,y)=>{w=23+u*4,A[w]=oX+(y=A[20+u])*(x=A[w])-A[w+1],A[w+1]=x,A[w+2]=oY+y
 d7=u=>{oX=jA[u*=I[10]],oY=jB[u],gS(0),gS(1),gS(2),++I[11]>=I[12]&&e5()},
 l9=lp(d7),
 dZ=(u,v)=>(v=0,Tb[u]>10&&(ru=dk[u],rw=rx=0,lR(0,Tb[u]-2),rx&&(v=rw/rx)),rS+=(u?'|':'R(%)=')+(v*100|0));lD=lp(dZ);
-wL=async(x,y,z)=>{for(y=0,z=A[15];y<z;y+=M2)uP(y*100/z|0,'Analyse freq'),await wI(),c$(x),l9(y,mi(z,y+M2));rS='',lD(0,6),lU(0,2),Tt=A[3],uP(100,'✅ OK'),vX=1,zR(),tm(rB,1e3,pN(t0))};
-dj=u=>(A[3]=A[15]/(u=A[2]),I[14]=A[3]*900|0,I[12]=u/900,A[45]=200/(u*a),Tb.fill(0),lj(0,6),lH(0,3),I[13]=I[11]=0,A.fill(0,23,35),fr.fill(0));
+wL=async(x,y,z)=>{for(y=0,z=A[35];y<z;y+=M2)uP(y*100/z|0,'Analyse freq'),await wI(),c$(x),l9(y,mi(z,y+M2));rS='',lD(0,6),lU(0,2),Tt=A[3],uP(100,'✅ OK'),vX=1,zR(),tm(rB,1e3,pN(t0))};
+dj=u=>(A.fill(0,11,35),A[3]=A[35]/(u=A[2]),I[14]=A[3]*900|0,I[12]=u/900,A[45]=200/(u*a),Tb.fill(0),lj(0,6),lH(0,3),fr.fill(0));
 l7=lp(u=>jA[u]=jB[u]/32768),
-Wc=(u,w,x,y,z)=>{for(w=12;w<u.byteLength;w+=8+y+(y&1)){x=g3(w),y=g3(w+4);if(x==wH[3])I[10]=g3(w+8)>>16,A[2]=g3(w+12),z=g3(w+20)>>16;else if(x==wH[9]){jB=sA(jA=z==16?(jB=new Ti(u,w+8,y>>=1),jA=n5(y),l7(0,y),jA):new f5(u,w+8,y/4),I[10]-1);break}}A[15]=jA[_L]/I[10]};
-Mc=async(u,x,y,z,w)=>{uP(0,'Décodage MP3');y=new T8(u),z=(y[0]==73&&y[1]==68&&y[2]==51)?10+((y[6]<<21)|(y[7]<<14)|(y[8]<<7)|y[9]):0;while(z<y[_L]-4&&(y[z]!=255||(y[z+1]&224)!=224))z++;w=z<y[_L]-4?sR[(y[z+2]>>2)&3]||sr:(z=0,sr);ad=ad?.sampleRate==w?ad:new OfflineAudioContext(1,1,w),w=await ad.decodeAudioData(z?u.slice(z):u),c$(x),I[10]=1,A[2]=w.sampleRate,A[15]=w.length,jA=w.getChannelData(0),jB=w.numberOfChannels>1?w.getChannelData(1):jA};
+Wc=(u,w,x,y,z)=>{for(w=12;w<u.byteLength;w+=8+y+(y&1)){x=g3(w),y=g3(w+4);if(x==wH[3])I[10]=g3(w+8)>>16,A[2]=g3(w+12),z=g3(w+20)>>16;else if(x==wH[9]){jB=sA(jA=z==16?(jB=new Ti(u,w+8,y>>=1),jA=n5(y),l7(0,y),jA):new f5(u,w+8,y/4),I[10]-1);break}}A[35]=jA[_L]/I[10]};
+Mc=async(u,x,y,z,w)=>{uP(0,'Décodage MP3');y=new T8(u),z=(y[0]==73&&y[1]==68&&y[2]==51)?10+((y[6]<<21)|(y[7]<<14)|(y[8]<<7)|y[9]):0;while(z<y[_L]-4&&(y[z]!=255||(y[z+1]&224)!=224))z++;w=z<y[_L]-4?sR[(y[z+2]>>2)&3]||sr:(z=0,sr);ad=ad?.sampleRate==w?ad:new OfflineAudioContext(1,1,w),w=await ad.decodeAudioData(z?u.slice(z):u),c$(x),I[10]=1,A[2]=w.sampleRate,A[35]=w.length,jA=w.getChannelData(0),jB=w.numberOfChannels>1?w.getChannelData(1):jA};
 dc=async(u,w)=>(w=++$c,r2=new DataView(u),g3(0)==wH[0]&&g3(8)==wH[2]?Wc(u):await Mc(u,w),dj(),wL(w));
 d.onfullscreenchange=onresize=rZ,
 sC(C_,px+tL+zi+'-2;'+pe+B_+'height:100dvh;'),ap(N[0],ap(D(mw+mC+';'+dg),K(),N[1])),
 ap(e,C_,cB,ap(D(px+tL+B_+'bottom:calc(25vh + 13vmin);'+oH+dg+'grid-template-rows:'+mC+' 1fr;'),N[3],N[0]),f_,mZ),rZ(),N[0].onscroll=uc,l5(0,61),At();
 onload=(u,w,z)=>{
 u=new CSSStyleSheet,u.replaceSync('*{scrollbar-width:none}::-webkit-scrollbar{'+dn+'}audio{'+B_+H5+'}input{margin:0 '+v1+hg+v1+aN+BR+'}input::-webkit-slider-thumb{'+aN+wd+v4+hg+v4+br+'50%;'+cu+bd+$n+'}'),d.adoptedStyleSheets=[u],
-bN=D(pr+B_+pd+vh+' '+v1+mh+'12'+VN+bg+'#111;'+dg+G1+bT+b1+'#f83;transition:opacity .3s;'),w=ap(D(S4),D(BT[12],IR+S7)),z=c(),
+bN=D(pr+B_+pd+vh+' '+v1+mh+'12'+VN+bg+'#111;'+dg+G1+bT+b1+'#f83;transition:opacity .3s;'),w=ap(D(S4),D(BT[12],IR+S7)),z=ce('input'),
 eb=e_(D(BR+fz+v4+cu+H5+pr+oH+dI+c1+bg+'#4af;'+mw+'30vw;'),()=>rE(eA)),eg=D(pa+tL+hc+wd+'0;'+bg+'linear-gradient(90deg,#0f0,#4f4);transition:width .3s;'),et=D(tG,pr+zi+'1;'+c1);
 ap(eb,eg,et),au=new Audio,au.controls=1,z.type='file',z.accept='audio/*';
 z.onchange=(u,v)=>(v=u.target.files[0])&&(su(uL(v.slice())),rE(async()=>(await dc(await v.arrayBuffer()),aU=rO)).finally(()=>z.value=''));
